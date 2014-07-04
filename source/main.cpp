@@ -4,6 +4,7 @@
  * @author			Slider
  * @date			2014-05-09
  * @copyright		(c) by Slider - www.gta-api.de
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 
 // includes
@@ -57,6 +58,7 @@
 #define PLAYER_INTERIOR_ADDR 0xA4ACE8
 #define PLAYER_VEHICLE_ID 0x488078
 #define PLAYER_STATE_ADDR 0x530
+#define PLAYER_RADIO_ADDR 0x8CB7A5
 
 // interface
 #define INTERFACE_HEALTH_COLOR_ADDR 0xBAB22C
@@ -94,6 +96,7 @@ HANDLE gtaHandle;
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  *
  * @params			name			char*&
  */
@@ -117,6 +120,7 @@ int API_GetPlayerName(char *&playername) {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  *
  * @params			text			char*
  */
@@ -172,6 +176,7 @@ int API_SendChat(char *text) {
  *
  * @author			Slider
  * @date			2014-05-11
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  *
  * @params			text			char*
  */
@@ -239,6 +244,7 @@ int API_AddChatMessage(char *text) {
  *
  * @author			Slider
  * @date			2014-05-30
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  *
  * @params			serverip			char*&
  */
@@ -262,6 +268,7 @@ int API_GetServerIP(char *&serverip) {
  *
  * @author			Slider
  * @date			2014-05-29
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_GetServerPort() {
@@ -284,6 +291,7 @@ int API_GetServerPort() {
  *
  * @author			Slider
  * @date			2014-05-09
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_IsChatOpen() {
@@ -326,6 +334,7 @@ int API_IsChatOpen() {
  *
  * @author			Slider
  * @date			2014-05-09
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerHealth() {
 	float health = 0;
@@ -353,6 +362,7 @@ int API_GetPlayerHealth() {
  *
  * @author			Slider
  * @date			2014-05-09
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerArmour() {
 	float armour = 0.0;
@@ -379,6 +389,7 @@ int API_GetPlayerArmour() {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerPos(float &x, float &y, float &z) {
 	if (CheckHandles()) {
@@ -399,6 +410,7 @@ int API_GetPlayerPos(float &x, float &y, float &z) {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerPosX(float &position) {
 	if (CheckHandles()) {
@@ -416,6 +428,7 @@ int API_GetPlayerPosX(float &position) {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerPosY(float &position) {
 	if (CheckHandles()) {
@@ -433,6 +446,7 @@ int API_GetPlayerPosY(float &position) {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerPosZ(float &position) {
 	if (CheckHandles()) {
@@ -450,6 +464,7 @@ int API_GetPlayerPosZ(float &position) {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_IsPlayerInAnyInterior() {
 	if (CheckHandles()) {
@@ -470,6 +485,7 @@ int API_IsPlayerInAnyInterior() {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetPlayerInteriorID() {
 	if (CheckHandles()) {
@@ -488,6 +504,7 @@ int API_GetPlayerInteriorID() {
  *
  * @author			Slider
  * @date			2014-05-11
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_GetPlayerSkin() {
@@ -508,6 +525,7 @@ int API_GetPlayerSkin() {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_IsPlayerInRangeOfPoint(float x, float y, float z, float radius) {
 	if (CheckHandles()) {
@@ -539,6 +557,7 @@ int API_IsPlayerInRangeOfPoint(float x, float y, float z, float radius) {
  *
  * @author			Slider
  * @date			2014-06-01
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_IsPlayerDriver() {
@@ -560,6 +579,61 @@ int API_IsPlayerDriver() {
 }
 */
 
+/**
+* int API_GetRadioID()
+*
+* @author			Dreamer
+* @date				2014-07-04
+* @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+int API_GetRadioID() {
+	if (CheckHandles()) {
+		int radioID;
+		DWORD puffer;
+		
+		ReadProcessMemory(gtaHandle, (DWORD*)(PLAYER_RADIO_ADDR), &radioID, sizeof(puffer), NULL);
+		
+		return radioID;
+	}
+
+	return 0;
+}
+ 
+/**
+* int API_GetRadioStationName()
+*
+* @author			Dreamer
+* @date				2014-07-04
+* @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+int API_GetRadioStationName(char *&station) {
+	if (CheckHandles()) {
+		int radioID;
+		DWORD puffer;
+		
+		ReadProcessMemory(gtaHandle, (DWORD*)(PLAYER_RADIO_ADDR), &radioID, sizeof(puffer), NULL);
+
+		if (radioID == 1) memcpy(station, "Playback FM", 11);
+		else if (radioID == 2) memcpy(station, "K Rose", 6);
+		else if (radioID == 3) memcpy(station, "K-DST", 5);
+		else if (radioID == 4) memcpy(station, "Bounce FM", 9);
+		else if (radioID == 5) memcpy(station, "SF-UR", 5);
+		else if (radioID == 6) memcpy(station, "Radio Los Santos", 16);
+		else if (radioID == 7) memcpy(station, "Radio X", 7);
+		else if (radioID == 8) memcpy(station, "CSR 103.9", 9);
+		else if (radioID == 9) memcpy(station, "K-JAH West", 10);
+		else if (radioID == 10) memcpy(station, "Master Sounds 98.3", 18);
+		else if (radioID == 11) memcpy(station, "WCTR Talk Radio", 15);
+		else if (radioID == 12) memcpy(station, "User Track Player", 18);
+		else if (radioID == 13) memcpy(station, "Radio Off", 9);
+		else memcpy(station, "Unknown", 7);
+
+		return 1;
+	}
+
+	return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Vehicle Functions
@@ -571,6 +645,7 @@ int API_IsPlayerDriver() {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_GetVehicleID() {
@@ -594,6 +669,7 @@ int API_GetVehicleID() {
  *
  * @author			Slider
  * @date			2014-05-30
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_GetLastVehicleID() {
@@ -615,6 +691,7 @@ int API_GetLastVehicleID() {
  *
  * @author			Slider
  * @date			2014-05-26
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetVehicleHealth() {
 	float health = 0.0;
@@ -641,6 +718,7 @@ int API_GetVehicleHealth() {
  *
  * @author			Slider
  * @date			2014-05-26
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_IsPlayerInAnyVehicle() {
 	float health = 0.0;
@@ -669,6 +747,7 @@ int API_IsPlayerInAnyVehicle() {
  *
  * @author			Slider
  * @date			2014-05-30
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetVehicleModelID() {
 	if (CheckHandles()) {
@@ -690,6 +769,7 @@ int API_GetVehicleModelID() {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_VehicleSirenStateChange() {
 	if (CheckHandles()) {
@@ -725,6 +805,7 @@ int API_VehicleSirenStateChange() {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetGasPedalState() {
 	if (CheckHandles()) {
@@ -747,6 +828,7 @@ int API_GetGasPedalState() {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetVehicleLockState() {
 	if (CheckHandles()) {
@@ -771,6 +853,7 @@ int API_GetVehicleLockState() {
  *
  * @author			Slider
  * @date			2014-06-01
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetVehicleEngineState() {
 	if (CheckHandles()) {
@@ -803,6 +886,7 @@ int API_GetVehicleEngineState() {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_SetInterfaceHealthColor(int color) {
 	if (CheckHandles()) {
@@ -823,6 +907,7 @@ int API_SetInterfaceHealthColor(int color) {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_SetInterfaceMoneyColor(int color) {
 	if (CheckHandles()) {
@@ -843,6 +928,7 @@ int API_SetInterfaceMoneyColor(int color) {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_SetInterfaceWantedLevelColor(int color) {
 	if (CheckHandles()) {
@@ -869,6 +955,7 @@ int API_SetInterfaceWantedLevelColor(int color) {
  *
  * @author			Slider
  * @date			2014-05-10
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 /*
 int API_GetChatLine(int line) {
@@ -908,6 +995,7 @@ int API_GetChatLine(int line) {
  *
  * @author			Slider
  * @date			2014-05-31
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 void ConvertHexToRGB(int hex, int &r, int &g, int &b) {
 	 r = (hex & 0xFF0000) >> 16;
@@ -920,6 +1008,7 @@ void ConvertHexToRGB(int hex, int &r, int &g, int &b) {
  *
  * @author			Slider
  * @date			2014-05-29
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetVersion(char *&version) {
 	version = API_VERSION;
@@ -931,6 +1020,7 @@ int API_GetVersion(char *&version) {
  *
  * @author			Slider
  * @date			2014-05-29
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_GetTimestamp() {
 	return time(0);
@@ -941,6 +1031,7 @@ int API_GetTimestamp() {
  *
  * @author			Slider
  * @date			2014-06-01
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_SetGTAProcessName(char* name) {
 	for (int i = 0; i < sizeof(ProcessName); i++) {
@@ -956,6 +1047,7 @@ int API_SetGTAProcessName(char* name) {
  *
  * @author			Slider
  * @date			2014-05-09
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int CheckHandles() {
 	char procname[32];
@@ -993,6 +1085,7 @@ int CheckHandles() {
  *
  * @author			Slider
  * @date			2014-05-09
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int GetGTAProcessID() {
 	/*
