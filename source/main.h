@@ -26,6 +26,8 @@ extern "C" __declspec(dllimport) int API_GetPlayerInteriorID();
 //extern "C" __declspec(dllimport) int API_GetPlayerSkin(); // unfertig
 extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint(float, float, float, float);
 //extern "C" __declspec(dllimport) int API_IsPlayerDriver(); // unfertig
+extern "C" __declspec(dllimport) int API_GetRadioID();
+extern "C" __declspec(dllimport) int API_GetRadioStationName(char*&);
 
 // Vehicle Functions
 //extern "C" __declspec(dllimport) int API_GetVehicleID(); // unfertig
