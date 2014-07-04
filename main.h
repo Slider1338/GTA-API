@@ -9,7 +9,7 @@
 // SA:MP Functions
 extern "C" __declspec(dllimport) int API_GetPlayerName(char*&);
 extern "C" __declspec(dllimport) int API_SendChat(char*);
-extern "C" __declspec(dllimport) int API_AddChatMessage(char*); // unfertig
+//extern "C" __declspec(dllimport) int API_AddChatMessage(char*); // unfertig
 extern "C" __declspec(dllimport) int API_GetServerIP(char*&);
 //extern "C" __declspec(dllimport) int API_GetServerPort(); // unfertig
 //extern "C" __declspec(dllimport) int API_IsChatOpen(); // unfertig
