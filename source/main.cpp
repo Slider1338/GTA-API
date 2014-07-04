@@ -580,13 +580,13 @@ int API_IsPlayerDriver() {
 */
 
 /**
-* int API_GetRadioID()
+* int API_GetRadioStationID()
 *
 * @author			Dreamer
 * @date				2014-07-04
 * @license			General Public License <https://www.gnu.org/licenses/gpl>
 */
-int API_GetRadioID() {
+int API_GetRadioStationID() {
 	if (CheckHandles()) {
 		int radioID;
 		DWORD puffer;
