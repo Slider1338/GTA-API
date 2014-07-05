@@ -1,2 +1,4 @@
 - API_GetRadioID() wurde hinzugefügt
 - API_GetRadioStationName() wurde hinzugefügt
+- API_VehicleSirenStateChange() Bugfix
+- API_GetVehicleSirenState() wurde hinzugefügt

@@ -588,12 +588,12 @@ int API_IsPlayerDriver() {
 */
 int API_GetRadioStationID() {
 	if (CheckHandles()) {
-		int radioID;
+		BYTE radioID;
 		DWORD puffer;
 		
-		ReadProcessMemory(gtaHandle, (DWORD*)(PLAYER_RADIO_ADDR), &radioID, sizeof(puffer), NULL);
-		
-		return radioID;
+		ReadProcessMemory(gtaHandle, (LPCVOID)PLAYER_RADIO_ADDR, &radioID, sizeof(puffer), NULL);
+
+		return (int)radioID;
 	}
 
 	return 0;
@@ -608,12 +608,13 @@ int API_GetRadioStationID() {
 */
 int API_GetRadioStationName(char *&station) {
 	if (CheckHandles()) {
-		int radioID;
-		DWORD puffer;
-		
-		ReadProcessMemory(gtaHandle, (DWORD*)(PLAYER_RADIO_ADDR), &radioID, sizeof(puffer), NULL);
+		/*
+		int radioID = API_GetRadioStationID();
+		char name[20] = { "Unknown" };
 
-		if (radioID == 1) memcpy(station, "Playback FM", 11);
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), (LPVOID)name, sizeof(name), NULL);
+
+		if (radioID == 1) name = "layback FM";
 		else if (radioID == 2) memcpy(station, "K Rose", 6);
 		else if (radioID == 3) memcpy(station, "K-DST", 5);
 		else if (radioID == 4) memcpy(station, "Bounce FM", 9);
@@ -627,6 +628,9 @@ int API_GetRadioStationName(char *&station) {
 		else if (radioID == 12) memcpy(station, "User Track Player", 18);
 		else if (radioID == 13) memcpy(station, "Radio Off", 9);
 		else memcpy(station, "Unknown", 7);
+
+		memcpy(station, name, sizeof(name));
+		*/
 
 		return 1;
 	}
@@ -773,31 +777,63 @@ int API_GetVehicleModelID() {
  */
 int API_VehicleSirenStateChange() {
 	if (CheckHandles()) {
-		int value;
+		if (API_IsPlayerInAnyVehicle()) {
+			BYTE value;
 
-		DWORD *p = (DWORD*)VEHICLE_POINTER_ADDR;
-		ReadProcessMemory(gtaHandle, (DWORD*)p, &buffer, sizeof(puffer),NULL);
+			ReadProcessMemory(gtaHandle, (LPCVOID)VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
 
-		DWORD sirenaddr = buffer + VEHICLE_SIREN_STATE_ADDR;
-		ReadProcessMemory(gtaHandle, (DWORD*)(sirenaddr), &value, sizeof(value), NULL);
-
-		cout << "ID: " << value << endl;
+			DWORD sirenaddr = buffer + VEHICLE_SIREN_STATE_ADDR;
+			ReadProcessMemory(gtaHandle, (LPCVOID)(sirenaddr), &value, sizeof(value), NULL);
 		
-		// on to off
-		if (value == -402643760) {
-			value = -402643888;
-			WriteProcessMemory(gtaHandle,(DWORD*)(sirenaddr),&value,sizeof(value),&puffer);
-		}
-		// of to on
-		else if (value == -402643888) {
-			value = -402643760;
-			WriteProcessMemory(gtaHandle,(DWORD*)(sirenaddr),&value,sizeof(value),&puffer);
+			// on to off
+			if ((int)value == 208) {
+				value = 80;
+				WriteProcessMemory(gtaHandle, (LPVOID)sirenaddr, (LPCVOID)&value, sizeof(value), &puffer);
+			}
+			else if ((int)value == 80) {
+				value = 208;
+				WriteProcessMemory(gtaHandle, (LPVOID)sirenaddr, (LPCVOID)&value, sizeof(value), &puffer);
+			}
+
+			return 1;
 		}
 
-		return 1;
+		return 0;
 	}
 
 	return 0;
+}
+
+/**
+ * int API_GetVehicleSirenState()
+ *
+ * @author			Slider
+ * @date			2014-07-05
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetVehicleSirenState() {
+	if (CheckHandles()) {
+		if (!API_IsPlayerInAnyVehicle()) {
+			return -1;
+		}
+		else {
+			BYTE value;
+
+			ReadProcessMemory(gtaHandle, (LPCVOID)VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+
+			DWORD sirenaddr = buffer + VEHICLE_SIREN_STATE_ADDR;
+			ReadProcessMemory(gtaHandle, (LPCVOID)(sirenaddr), &value, sizeof(value), NULL);
+		
+			if ((int)value == 208) {
+				return 1;
+			}
+			else if ((int)value == 80) {
+				return 0;
+			}
+		}
+	}
+
+	return -1;
 }
 
 /**

@@ -30,6 +30,7 @@ GetVehicleHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetV
 IsPlayerInAnyVehicle_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAnyVehicle")
 GetVehicleModelID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleModelID")
 VehicleSirenStateChange_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_VehicleSirenStateChange")
+GetVehicleSirenState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleSirenState")
 GetGasPedalState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetGasPedalState")
 GetVehicleLockState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleLockState")
 GetVehicleEngineState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleEngineState")
@@ -154,6 +155,12 @@ GetVehicleModelID() {
 VehicleSirenStateChange() {
 	global VehicleSirenStateChange_func
     Result := DllCall(VehicleSirenStateChange_func)
+    return Result
+}
+
+GetVehicleSirenState() {
+	global GetVehicleSirenState_func
+    Result := DllCall(GetVehicleSirenState_func)
     return Result
 }
 

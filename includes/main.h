@@ -31,11 +31,12 @@ extern "C" __declspec(dllimport) int API_GetRadioStationName(char*&);
 
 // Vehicle Functions
 //extern "C" __declspec(dllimport) int API_GetVehicleID(); // unfertig
-// extern "C" __declspec(dllimport) int API_GetLastVehicleID(); // unfertig
+//extern "C" __declspec(dllimport) int API_GetLastVehicleID(); // unfertig
 extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();
 extern "C" __declspec(dllimport) int API_GetVehicleModelID();
 extern "C" __declspec(dllimport) int API_VehicleSirenStateChange();
+extern "C" __declspec(dllimport) int API_GetVehicleSirenState();
 extern "C" __declspec(dllimport) int API_GetGasPedalState();
 extern "C" __declspec(dllimport) int API_GetVehicleLockState();
 extern "C" __declspec(dllimport) int API_GetVehicleEngineState();
