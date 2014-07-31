@@ -20,6 +20,7 @@
 #include <ctime>
 #include "main.h"
 #include "memorymanagement.h"
+#include "SAMP.hpp"
 
 // settings
 #define MAX_PLAYER_NAME 32
@@ -49,6 +50,7 @@
 #define SAMP_SERVERPORT_ADDR 0x2122F6
 #define SAMP_INCHAT_POINTER_ADDR 0x212A94
 #define SAMP_INCHAT_POINTER_OFF_ADDR 0x55
+#define SAMP_PLAYERID_ADDR 0x04
 
 // gta
 #define PLAYER_SKIN_ADDR 0xC1399A2
@@ -59,6 +61,10 @@
 #define PLAYER_VEHICLE_ID 0x488078
 #define PLAYER_STATE_ADDR 0x530
 #define PLAYER_RADIO_ADDR 0x8CB7A5
+#define PLAYER_CURRENT_WEAPON_ADDR 0x740
+#define PLAYER_WEAPON_SLOT_ADDR 0xB7CDBC
+#define CURRENT_WEATHER_ADDR 0xC81320
+#define PLAYER_FPS_ADDR 0xB7CB50
 
 // interface
 #define INTERFACE_HEALTH_COLOR_ADDR 0xBAB22C
@@ -85,11 +91,68 @@ DWORD gtaProcessID;
 DWORD sampDLL;
 HANDLE gtaHandle;
 
+SAMP::SAMP samp;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // SA:MP Functions
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * int API_GetPlayerID()
+ *
+ * @author			Slider
+ * @date			2014-07-26
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ *
+ * @params			name			char*&
+ */
+int API_GetPlayerID() {
+	int playerid;
+	DWORD out1;
+	DWORD out2;
+	DWORD out3;
+
+	if (CheckHandles()) {
+		/*
+			0x14 = structPlayersOffset
+			0x212A80 = structSampOffset
+			0x3D9 = structPlayersPoolOffset
+
+		    structSamp = BitConverter.ToUInt32(ReadMemory(sampModule + structSampOffset, 4), 0);
+            structSampPools = BitConverter.ToUInt32(ReadMemory(structSamp + structPlayersPoolOffset, 4), 0);
+            structPlayerPool = BitConverter.ToUInt32(ReadMemory(structSampPools + structPlayersOffset, 4), 0);
+
+			playerId = structPlayerPool + playerOffsetId;
+		*/
+
+		addr = sampDLL + 0x212A80;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), (LPVOID)out1, sizeof(out1), NULL);
+
+		addr = out1 + 0x3D9;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), (LPVOID)out2, sizeof(out2), NULL);
+
+		addr = out2 + 0x14;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), (LPVOID)out3, sizeof(out3), NULL);
+
+		addr = out2 + SAMP_PLAYERID_ADDR;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), (LPVOID)playerid, sizeof(playerid), NULL);
+
+		cout << "PlayerID: " << playerid << endl;
+
+		/*
+		addr = sampDLL + SAMP_PLAYERID_ADDR;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), (LPVOID)playerid, sizeof(playerid), NULL);
+		
+		cout << "PlayerID: " << playerid << endl;
+		*/
+
+		return playerid;
+	}
+
+	return 0;
+}
 
 /**
  * int API_GetPlayerName(char*& name)
@@ -180,6 +243,15 @@ int API_SendChat(char *text) {
  *
  * @params			text			char*
  */
+int API_AddChatMessage(char *text) {
+	if (CheckHandles()) {
+		cout << "Hallo" << endl;
+		samp.addChatMessage("Hallo");
+		return 1;
+	}
+
+	return 0;
+}
 /*
 int API_AddChatMessage(char *text) {
 	if (CheckHandles()) {
@@ -638,6 +710,86 @@ int API_GetRadioStationName(char *&station) {
 	return 0;
 }
 
+/**
+* int API_GetPlayerWeaponID()
+*
+* @author			Slider
+* @date				2014-07-05
+* @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+int API_GetPlayerWeaponID() {
+	if (CheckHandles()) {
+		int weaponid;
+		
+		ReadProcessMemory(gtaHandle, (LPCVOID)CPED_POINTER_ADDR, (LPVOID)buffer, sizeof(buffer), NULL);
+
+		DWORD addr = buffer + PLAYER_CURRENT_WEAPON_ADDR;
+		ReadProcessMemory(gtaHandle, (LPCVOID)addr, &weaponid, sizeof(weaponid), NULL);
+
+		cout << "WeaponID: " << weaponid;
+
+		return weaponid;
+	}
+
+	return 0;
+}
+
+/**
+* int API_GetPlayerWeaponSlot()
+*
+* @author			Dreamer
+* @date				2014-07-05
+* @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+int API_GetPlayerWeaponSlot() {
+	if (CheckHandles()) {
+		int slot;
+		
+		ReadProcessMemory(gtaHandle, (DWORD*)(PLAYER_WEAPON_SLOT_ADDR), &slot, sizeof(slot), NULL);
+		return slot;
+	}
+
+	return -1;
+}
+
+/**
+* int API_GetWeatherID()
+*
+* @author			Dreamer
+* @date				2014-07-05
+* @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+int API_GetWeatherID() {
+	if (CheckHandles()) {
+		int weatherid;
+
+		ReadProcessMemory(gtaHandle, (LPCVOID)CURRENT_WEATHER_ADDR, &weatherid, sizeof(weatherid), NULL);
+		return weatherid;
+	}
+
+	return 0;
+}
+
+/**
+* int API_GetPlayerFPS()
+*
+* @author			Slider
+* @date				2014-07-05
+* @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+int API_GetPlayerFPS() {
+	if (CheckHandles()) {
+		BYTE fps;
+
+		ReadProcessMemory(gtaHandle, (LPCVOID)PLAYER_FPS_ADDR, &fps, sizeof(fps), NULL);
+		cout << "FPS - API: " << fps << endl;
+
+		return (int)fps;
+	}
+
+	return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Vehicle Functions
@@ -790,6 +942,7 @@ int API_VehicleSirenStateChange() {
 				value = 80;
 				WriteProcessMemory(gtaHandle, (LPVOID)sirenaddr, (LPCVOID)&value, sizeof(value), &puffer);
 			}
+			// off to on
 			else if ((int)value == 80) {
 				value = 208;
 				WriteProcessMemory(gtaHandle, (LPVOID)sirenaddr, (LPCVOID)&value, sizeof(value), &puffer);

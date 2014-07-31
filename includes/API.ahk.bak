@@ -10,8 +10,8 @@ if (hModule == -1 || hModule == 0) {
 ; SA:MP Functions
 GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerName")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
-AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_AddChatMessage")
 GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerIP")
+AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_AddChatMessage")
 
 ; GTA Functions
 GetPlayerHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerHealth")
