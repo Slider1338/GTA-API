@@ -61,6 +61,7 @@ DWORD gtaProcessID;
 HANDLE gtaHandle;
 
 // prototypes
+int GetRealWeaponID(int);
 void ConvertHexToRGB(int, int&, int&, int&);
 int CheckHandles();
 int GetGTAProcessID();
@@ -377,14 +378,14 @@ int API_IsPlayerInRangeOfPoint(float radius, float x, float y, float z) {
  */
 int API_GetPlayerWeaponID() {
 	if (CheckHandles()) {
-		int weaponid;
-		
+		BYTE weaponid;
+
 		ReadProcessMemory(gtaHandle, (LPCVOID)GTA_CPED_POINTER_ADDR, (LPVOID)buffer, sizeof(buffer), NULL);
 
 		addr = buffer + GTA_PLAYER_WEAPONID_ADDR;
-		ReadProcessMemory(gtaHandle, (LPCVOID)addr, &weaponid, sizeof(weaponid), NULL);
+		ReadProcessMemory(gtaHandle, (LPCVOID)(addr), &weaponid, sizeof(weaponid), NULL);
 
-		return weaponid;
+		return GetRealWeaponID((int)weaponid);
 	}
 
 	return FUNCTION_ERROR_CODE;
@@ -599,6 +600,284 @@ int API_SetInterfaceWantedLevelColor(int color) {
  */
 int API_GetTimestamp() {
 	return time(0);
+}
+
+/**
+ * int GetRealWeaponID()
+ *
+ * @author			Slider
+ * @date			2014-08-04
+ * @category		Randomshit
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int GetRealWeaponID(int weaponid) {
+	switch (weaponid) {
+		// Faust
+		case 255:
+		{
+			return 0;
+		}
+
+		// Schlagring
+		case 75:
+		{
+			return 1;
+		}
+
+		// Golfschläger
+		case 77:
+		{
+			return 2;
+		}
+
+		// Schlagstock
+		case 78:
+		{
+			return 3;
+		}
+
+		// Messer
+		case 79:
+		{
+			return 4;
+		}
+
+		// Baseball Schläger
+		case 80:
+		{
+			return 5;
+		}
+
+		// Baseball Schläger
+		case 81:
+		{
+			return 6;
+		}
+
+		// Cue
+		case 82:
+		{
+			return 7;
+		}
+
+		// Katana
+		case 83:
+		{
+			return 8;
+		}
+
+		// Kettensäge
+		case 85:
+		{
+			return 9;
+		}
+
+		// Double-End-Dildo
+		case 65:
+		{
+			return 10;
+		}
+
+		// Dildo
+		case 66:
+		{
+			return 11;
+		}
+
+		// Vibrator
+		case 67:
+		{
+			return 12;
+		}
+
+		// Silberner Vibrator
+		case 68:
+		{
+			return 13;
+		}
+
+		// Blumen
+		case 69:
+		{
+			return 14;
+		}
+
+		// Stock
+		case 70:
+		{
+			return 15;
+		}
+
+		// Granate
+		case 86:
+		{
+			return 16;
+		}
+
+		// Tränengas
+		case 87:
+		{
+			return 17;
+		}
+
+		// Molotow Cocktail
+		case 88:
+		{
+			return 18;
+		}
+
+		// 9mm
+		case 90:
+		{
+			return 22;
+		}
+
+		// 9mm Schalldämpfer
+		case 91:
+		{
+			return 23;
+		}
+
+		// Desert Eagle
+		case 92:
+		{
+			return 24;
+		}
+
+		// Shotgun
+		case 93:
+		{
+			return 25;
+		}
+
+		// Abgesägte Schrotflinte
+		case 94:
+		{
+			return 26;
+		}
+
+		// Combat Shotgun
+		case 95:
+		{
+			return 27;
+		}
+
+		// Uzi
+		case 96:
+		{
+			return 28;
+		}
+
+		// MP5
+		case 97:
+		{
+			return 29;
+		}
+
+		// AK 47
+		case 99:
+		{
+			return 30;
+		}
+
+		// M4
+		case 100:
+		{
+			return 31;
+		}
+
+		// TEC 9
+		case 116:
+		{
+			return 32;
+		}
+
+		// Rifle
+		case 101:
+		{
+			return 33;
+		}
+
+		// Sniper
+		case 102:
+		{
+			return 34;
+		}
+
+		// RPG
+		case 103:
+		{
+			return 35;
+		}
+
+		// HS Rocket
+		case 104:
+		{
+			return 36;
+		}
+
+		// Flammenwerfer
+		case 105:
+		{
+			return 37;
+		}
+
+		// Minigun
+		case 106:
+		{
+			return 38;
+		}
+
+		// Satchel Charge
+		case 107:
+		{
+			return 39;
+		}
+
+		// Detonator
+		case 108:
+		{
+			return 40;
+		}
+
+		// Spraycan
+		case 109:
+		{
+			return 41;
+		}
+
+		// Feuerlöscher
+		case 110:
+		{
+			return 42;
+		}
+
+		// Kamera
+		case 111:
+		{
+			return 43;
+		}
+
+		// Nachtsichtgerät
+		case 112:
+		{
+			return 44;
+		}
+
+		// Thermalsichtgerät
+		case 113:
+		{
+			return 45;
+		}
+
+		// Fallschirm
+		case 115:
+		{
+			return 46;
+		}
+	}
+
+	return FUNCTION_ERROR_CODE;
 }
 
 /**
