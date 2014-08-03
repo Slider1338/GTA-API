@@ -1,21 +1,18 @@
 /**
- * SAMP 0.3z API by Slider
- * 
- * @author			Slider
- * @date			2014-05-09
- * @copyright		(c) by Slider - www.gta-api.de
+ * GTA API by Slider (c) www.gta-api.de
+ *
+ * @author				Slider
+ * @date				2014-05-09
+ * @copyright			(c) by Slider - www.gta-api.de
+ * @license				General Public License <https://www.gnu.org/licenses/gpl>
  */
 
-// SA:MP Functions
-extern "C" __declspec(dllimport) int API_GetPlayerID();
+// SA:MP
+extern "C" __declspec(dllimport) int API_GetServerIP(char*&);
 extern "C" __declspec(dllimport) int API_GetPlayerName(char*&);
 extern "C" __declspec(dllimport) int API_SendChat(char*);
-extern "C" __declspec(dllimport) int API_AddChatMessage(char*);
-extern "C" __declspec(dllimport) int API_GetServerIP(char*&);
-//extern "C" __declspec(dllimport) int API_GetServerPort(); // unfertig
-//extern "C" __declspec(dllimport) int API_IsChatOpen(); // unfertig
 
-// GTA Functions
+// GTA
 extern "C" __declspec(dllimport) int API_GetPlayerHealth();
 extern "C" __declspec(dllimport) int API_GetPlayerArmour();
 extern "C" __declspec(dllimport) int API_GetPlayerPos(float&, float&, float&);
@@ -24,35 +21,18 @@ extern "C" __declspec(dllimport) int API_GetPlayerPosY(float&);
 extern "C" __declspec(dllimport) int API_GetPlayerPosZ(float&);
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyInterior();
 extern "C" __declspec(dllimport) int API_GetPlayerInteriorID();
-//extern "C" __declspec(dllimport) int API_GetPlayerSkin(); // unfertig
-extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint(float, float, float, float);
-//extern "C" __declspec(dllimport) int API_IsPlayerDriver(); // unfertig
-extern "C" __declspec(dllimport) int API_GetRadioStationID();
-extern "C" __declspec(dllimport) int API_GetRadioStationName(char*&);
+extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponID();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponSlot();
-extern "C" __declspec(dllimport) int API_GetWeatherID();
-extern "C" __declspec(dllimport) int API_GetPlayerFPS();
-
-// Vehicle Functions
-//extern "C" __declspec(dllimport) int API_GetVehicleID(); // unfertig
-//extern "C" __declspec(dllimport) int API_GetLastVehicleID(); // unfertig
 extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();
-extern "C" __declspec(dllimport) int API_GetVehicleModelID();
 extern "C" __declspec(dllimport) int API_VehicleSirenStateChange();
 extern "C" __declspec(dllimport) int API_GetVehicleSirenState();
-extern "C" __declspec(dllimport) int API_GetGasPedalState();
-extern "C" __declspec(dllimport) int API_GetVehicleLockState();
-extern "C" __declspec(dllimport) int API_GetVehicleEngineState();
 
-// Interface Functions
+// Interface
 extern "C" __declspec(dllimport) int API_SetInterfaceHealthColor(int);
 extern "C" __declspec(dllimport) int API_SetInterfaceMoneyColor(int);
 extern "C" __declspec(dllimport) int API_SetInterfaceWantedLevelColor(int);
 
-// Random Shit Functions
-//extern "C" __declspec(dllimport) int API_GetChatLine(int); // unfertig
-extern "C" __declspec(dllimport) int API_GetVersion(char*&);
+// Randomshit
 extern "C" __declspec(dllimport) int API_GetTimestamp();
-extern "C" __declspec(dllimport) int API_SetGTAProcessName(char*);

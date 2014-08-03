@@ -1,9 +1,0 @@
-#include API.ahk
-
-#Persistent
-#NoEnv
-
-~F3::
-MsgBox, Hallo
-AddChatMessage("Hallo")
-return
