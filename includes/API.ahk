@@ -107,9 +107,9 @@ GetPlayerInteriorID() {
 	return Result
 }
 
-IsPlayerInRangeOfPoint(x, y, z, radius) {
+IsPlayerInRangeOfPoint(radius, x, y, z) {
 	global IsPlayerInRangeOfPoint_func
-	Result := DllCall(IsPlayerInRangeOfPoint_func, Float, x, Float, y, Float, z, Float, radius)
+	Result := DllCall(IsPlayerInRangeOfPoint_func, Float, radius, Float, x, Float, y, Float, z)
 	return Result
 }
 
