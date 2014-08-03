@@ -7,13 +7,12 @@ if (hModule == -1 || hModule == 0) {
     ExitApp
 }
 
-; SA:MP Functions
+; SA:MP
+GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerIP")
 GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerName")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
-AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_AddChatMessage")
-GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerIP")
 
-; GTA Functions
+; GTA
 GetPlayerHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerHealth")
 GetPlayerArmour_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerArmour")
 GetPlayerPos_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerPos")
@@ -23,29 +22,29 @@ GetPlayerPosZ_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlay
 IsPlayerInAnyInterior_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAnyInterior")
 GetPlayerInteriorID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerInteriorID")
 IsPlayerInRangeOfPoint_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInRangeOfPoint")
-GetRadioStationID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetRadioStationID")
-GetRadioStationName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetRadioStationName")
-
-; Vehicle Functions
+GetPlayerWeaponID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponID")
+GetPlayerWeaponSlot_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponSlot")
 GetVehicleHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleHealth")
 IsPlayerInAnyVehicle_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAnyVehicle")
-GetVehicleModelID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleModelID")
 VehicleSirenStateChange_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_VehicleSirenStateChange")
 GetVehicleSirenState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleSirenState")
-GetGasPedalState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetGasPedalState")
-GetVehicleLockState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleLockState")
-GetVehicleEngineState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleEngineState")
 
-; Interface Functions
+; Interface
 SetInterfaceHealthColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SetInterfaceHealthColor")
 SetInterfaceMoneyColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SetInterfaceMoneyColor")
 SetInterfaceWantedLevelColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SetInterfaceWantedLevelColor")
 
-; Random Shit Functions
-GetVersion_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVersion")
+; Randomshit
 GetTimestamp_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetTimestamp")
 
-; SA:MP Functions
+; SA:MP
+GetServerIP(ByRef ipAddress) {
+	global GetServerIP_func
+	VarSetCapacity(ipAddress, 15)
+    Result := DllCall(GetServerIP_func, StrP, ipAddress)
+    return Result
+}
+
 GetPlayerName(ByRef name) {
 	global GetPlayerName_func
 	VarSetCapacity(name, 24)
@@ -59,20 +58,7 @@ SendChat(text) {
     return Result
 }
 
-AddChatMessage(text) {
-	global AddChatMessage_func
-    Result := DllCall(AddChatMessage_func, Str, text)
-    return Result
-}
-
-GetServerIP(ByRef ipAddress) {
-	global GetServerIP_func
-	VarSetCapacity(ipAddress, 15)
-    Result := DllCall(GetServerIP_func, StrP, ipAddress)
-    return Result
-}
-
-; GTA Functions
+; GTA
 GetPlayerHealth() {
 	global GetPlayerHealth_func
     Result := DllCall(GetPlayerHealth_func)
@@ -127,20 +113,18 @@ IsPlayerInRangeOfPoint(x, y, z, radius) {
 	return Result
 }
 
-GetRadioStationID() {
-	global GetRadioStationID_func
-	Result := DllCall(GetRadioStationID_func)
+GetPlayerWeaponID() {
+	global GetPlayerWeaponID_func
+	Result := DllCall(GetPlayerWeaponID_func, Float, x, Float, y, Float, z, Float, radius)
 	return Result
 }
 
-GetRadioStationName(ByRef name) {
-	global GetRadioStationName_func
-	VarSetCapacity(name, 20)
-    Result := DllCall(GetRadioStationName_func, StrP, name)
-    return Result
+GetPlayerWeaponSlot() {
+	global GetPlayerWeaponSlot_func
+	Result := DllCall(GetPlayerWeaponSlot_func, Float, x, Float, y, Float, z, Float, radius)
+	return Result
 }
 
-; Vehicle Functions
 GetVehicleHealth() {
 	global GetVehicleHealth_func
     Result := DllCall(GetVehicleHealth_func)
@@ -150,12 +134,6 @@ GetVehicleHealth() {
 IsPlayerInAnyVehicle() {
 	global IsPlayerInAnyVehicle_func
     Result := DllCall(IsPlayerInAnyVehicle_func)
-    return Result
-}
-
-GetVehicleModelID() {
-	global GetVehicleModelID_func
-    Result := DllCall(GetVehicleModelID_func)
     return Result
 }
 
@@ -171,25 +149,7 @@ GetVehicleSirenState() {
     return Result
 }
 
-GetGasPedalState() {
-	global GetGasPedalState_func
-    Result := DllCall(GetGasPedalState_func)
-    return Result
-}
-
-GetVehicleLockState() {
-	global GetVehicleLockState_func
-    Result := DllCall(GetVehicleLockState_func)
-    return Result
-}
-
-GetVehicleEngineState() {
-	global GetVehicleEngineState_func
-    Result := DllCall(GetVehicleEngineState_func)
-    return Result
-}
-
-; Interface Functions
+; Interface
 SetInterfaceHealthColor(color) {
 	global SetInterfaceHealthColor_func
     Result := DllCall(SetInterfaceHealthColor_func, Int, color)
@@ -208,14 +168,7 @@ SetInterfaceWantedLevelColor(color) {
     return Result
 }
 
-; Random Shit Functions
-GetVersion(ByRef version) {
-	global GetVersion_func
-	VarSetCapacity(version, 24)
-    Result := DllCall(GetVersion_func, StrP, version)
-	return Result
-}
-
+; Randomshit
 GetTimestamp() {
 	global GetTimestamp_func
     Result := DllCall(GetTimestamp_func)
