@@ -591,6 +591,19 @@ int API_SetInterfaceWantedLevelColor(int color) {
 }
 
 /**
+ * int API_GetVersion()
+ *
+ * @author			Slider
+ * @date			2014-08-04
+ * @category		Randomshit
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetVersion(char *&version) {
+	memcpy(version, API_VERSION, sizeof(API_VERSION));
+	return 1;
+}
+
+/**
  * int API_GetTimestamp()
  *
  * @author			Slider

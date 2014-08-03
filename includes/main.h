@@ -35,4 +35,5 @@ extern "C" __declspec(dllimport) int API_SetInterfaceMoneyColor(int);
 extern "C" __declspec(dllimport) int API_SetInterfaceWantedLevelColor(int);
 
 // Randomshit
+extern "C" __declspec(dllimport) int API_GetVersion(char*&);
 extern "C" __declspec(dllimport) int API_GetTimestamp();
