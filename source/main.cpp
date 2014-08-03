@@ -341,7 +341,7 @@ int API_GetPlayerInteriorID() {
  * @category		GTA
  * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
-int API_IsPlayerInRangeOfPoint(float x, float y, float z, float radius) {
+int API_IsPlayerInRangeOfPoint(float radius, float x, float y, float z) {
 	if (CheckHandles()) {
 		float x1;
 		float y1;

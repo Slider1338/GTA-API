@@ -21,7 +21,7 @@ extern "C" __declspec(dllimport) int API_GetPlayerPosY(float&);
 extern "C" __declspec(dllimport) int API_GetPlayerPosZ(float&);
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyInterior();
 extern "C" __declspec(dllimport) int API_GetPlayerInteriorID();
-extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint();
+extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint(float, float, float, float);
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponID();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponSlot();
 extern "C" __declspec(dllimport) int API_GetVehicleHealth();
