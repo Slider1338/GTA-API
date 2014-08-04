@@ -1,9 +1,2 @@
-<<<<<<< HEAD
-- API_GetRadioID() wurde hinzugef¸gt
-- API_GetRadioStationName() wurde hinzugef¸gt
 - API_VehicleSirenStateChange() Bugfix
-- API_GetVehicleSirenState() wurde hinzugef¸gt
-=======
-- API_GetRadioStationID() wurde hinzugefÔøΩgt
-- API_GetRadioStationName() wurde hinzugefÔøΩgt
->>>>>>> origin/master
+- API_GetVehicleSirenState() wurde hinzugef√ºgt
