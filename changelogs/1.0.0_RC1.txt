@@ -1,5 +1,10 @@
+Erledigt:
 - API_VehicleSirenStateChange() Bugfix
 - API_GetVehicleSirenState() wurde hinzugefügt
 - API_GetPlayerWeaponID() wurde hinzugefügt
 - API_GetPlayerWeaponSlot() wurde hinzugefügt
 - API_GetVersion() Bugfix
+
+Zu bearbeiten:
+- API_GetCityName(char*&) wurde hinzugefügt
+- API_GetZoneName(char*&) wurde hinzugefügt
