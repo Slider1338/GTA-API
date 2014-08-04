@@ -4,6 +4,7 @@ Erledigt:
 - API_GetPlayerWeaponID() wurde hinzugefügt
 - API_GetPlayerWeaponSlot() wurde hinzugefügt
 - API_GetVersion() Bugfix
+- API_GetServerName() wurde hinzugefügt
 
 Zu bearbeiten:
 - API_GetCityName(char*&) wurde hinzugefügt
