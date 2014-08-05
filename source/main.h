@@ -8,6 +8,7 @@
  */
 
 // SA:MP
+extern "C" __declspec(dllimport) int API_GetServerName(char*&);
 extern "C" __declspec(dllimport) int API_GetServerIP(char*&);
 extern "C" __declspec(dllimport) int API_GetPlayerName(char*&);
 extern "C" __declspec(dllimport) int API_SendChat(char*);
@@ -24,6 +25,7 @@ extern "C" __declspec(dllimport) int API_GetPlayerInteriorID();
 extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint(float, float, float, float);
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponID();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponSlot();
+extern "C" __declspec(dllimport) int API_GetWeaponName(int, char*&);
 extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();
 extern "C" __declspec(dllimport) int API_VehicleSirenStateChange();

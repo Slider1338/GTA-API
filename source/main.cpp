@@ -23,10 +23,12 @@
 
 // Settings
 #define MAX_PLAYER_NAME 35
+#define MAX_SERVERNAME_LENGTH 50
 #define FUNCTION_ERROR_CODE -1
 #define API_VERSION "1.0.0 RC1"
 
 // SA:MP Addresses
+#define SAMP_SERVERNAME_ADDR 0x212A80
 #define SAMP_SERVERIP_ADDR 0x2121F5
 #define SAMP_PLAYERNAME_ADDR 0x2123F7
 
@@ -65,6 +67,32 @@ int GetRealWeaponID(int);
 void ConvertHexToRGB(int, int&, int&, int&);
 int CheckHandles();
 int GetGTAProcessID();
+
+/**
+ * int API_GetServerName(char *&servername)
+ *
+ * @author			Grab
+ * @date			2014-08-04
+ * @category		SA:MP
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ *
+ * @params			servername			char*&
+ */
+int API_GetServerName(char *&servername) {
+	char name[MAX_SERVERNAME_LENGTH] = { "Unknown" };
+
+	if (CheckHandles()) {
+		addr = sampDLL + SAMP_SERVERNAME_ADDR;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), &buffer, sizeof(buffer), NULL);
+		ReadProcessMemory(gtaHandle, (DWORD*)(buffer + 0x2C6), &name, sizeof(name), NULL);
+		
+		memcpy(servername, name, sizeof(name));
+
+		return 1;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
 
 /**
  * int API_GetServerIP(char *&serverip)
@@ -405,6 +433,36 @@ int API_GetPlayerWeaponSlot() {
 		
 		ReadProcessMemory(gtaHandle, (DWORD*)(GTA_PLAYER_WEAPON_SLOT_ADDR), &slot, sizeof(slot), NULL);
 		return slot;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_GetWeaponName(int, char*&)
+ *
+ * @author			Slider
+ * @date			2014-08-04
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetWeaponName(int weaponid, char *&weaponname) {
+	char name[20] = { "Unknown" };
+	char *wnames[47] = {
+		"Fist", "Brass Knuckles", "Golf Club", "Nightstick", "Knife", "Baseball Bat", "Shovel", "Pool Cue", "Katana", "Chainsaw", "Purple Dildo",
+		"Dildo", "Vibrator", "Silver Vibrator", "Flowers", "Cane", "Grenade", "Tear Gas", "Molotov Cocktail", "9mm", "Silenced 9mm", "Desert Eagle", "Shotgun",
+		"Sawnoff Shotgun", "Combat Shotgun", "UZI", "MP5", "AK-47", "M4", "Tec-9", "Country Rifle", "Sniper Rifle", "RPG", "HS Rocket", "Flamethrower", "Minigun",
+		"Satchel Charge", "Detonator", "Spraycan", "Fire Extinguisher", "Camera", "Night Vis Goggles", "Thermal Goggles", "Parachute"
+	};
+
+	if (CheckHandles()) {
+		if (weaponid >= 0 && weaponid <= 46 && weaponid != 19 && weaponid != 20 && weaponid != 21) {
+			memcpy(weaponname, wnames[weaponid], sizeof(wnames[weaponid]));
+		}
+
+		memcpy(weaponname, name, sizeof(name));
+
+		return 1;
 	}
 
 	return FUNCTION_ERROR_CODE;

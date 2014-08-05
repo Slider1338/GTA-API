@@ -8,6 +8,7 @@ if (hModule == -1 || hModule == 0) {
 }
 
 ; SA:MP
+GetServerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerName")
 GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerIP")
 GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerName")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
@@ -39,6 +40,13 @@ GetVersion_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVersion
 GetTimestamp_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetTimestamp")
 
 ; SA:MP
+GetServerName(ByRef servername) {
+	global GetServerName_func
+	VarSetCapacity(servername, 15)
+    Result := DllCall(GetServerName_func, StrP, servername)
+    return Result
+}
+
 GetServerIP(ByRef ipAddress) {
 	global GetServerIP_func
 	VarSetCapacity(ipAddress, 15)
