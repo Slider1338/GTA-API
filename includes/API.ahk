@@ -26,6 +26,7 @@ GetPlayerInteriorID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_G
 IsPlayerInRangeOfPoint_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInRangeOfPoint")
 GetPlayerWeaponID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponID")
 GetPlayerWeaponSlot_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponSlot")
+GetPlayerWeaponClipAmmo_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponClipAmmo")
 GetWeaponName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetWeaponName")
 GetVehicleHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleHealth")
 IsPlayerInAnyVehicle_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAnyVehicle")
@@ -139,6 +140,12 @@ GetPlayerWeaponID() {
 GetPlayerWeaponSlot() {
 	global GetPlayerWeaponSlot_func
 	Result := DllCall(GetPlayerWeaponSlot_func, Float, x, Float, y, Float, z, Float, radius)
+	return Result
+}
+
+GetPlayerWeaponClipAmmo() {
+	global GetPlayerWeaponClipAmmo_func
+	Result := DllCall(GetPlayerWeaponClipAmmo_func)
 	return Result
 }
 

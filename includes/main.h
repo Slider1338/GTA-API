@@ -26,6 +26,7 @@ extern "C" __declspec(dllimport) int API_GetPlayerInteriorID();
 extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint(float, float, float, float);
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponID();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponSlot();
+extern "C" __declspec(dllimport) int API_GetPlayerWeaponClipAmmo();
 extern "C" __declspec(dllimport) int API_GetWeaponName(int, char*&); // Bug: weaponid ist immer -1
 extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();

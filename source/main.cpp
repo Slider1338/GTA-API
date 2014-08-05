@@ -47,6 +47,7 @@
 #define GTA_PLAYER_INTERIOR_ADDR 0xA4ACE8
 #define GTA_PLAYER_WEAPONID_ADDR 0x740
 #define GTA_PLAYER_WEAPON_SLOT_ADDR 0xB7CDBC
+#define GTA_PLAYER_WEAPON_CLIP_AMMO_ADDR 0x1207F0
 #define GTA_VEHICLE_POINTER_ADDR 0xBA18FC
 #define GTA_VEHICLE_HEALTH_ADDR 0x4C0
 #define GTA_VEHICLE_SIREN_STATE_ADDR 0x42D
@@ -465,6 +466,50 @@ int API_GetPlayerWeaponSlot() {
 }
 
 /**
+ * int API_GetPlayerWeaponClipAmmo()
+ *
+ * @author			Grab
+ * @date			2014-08-05
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetPlayerWeaponClipAmmo() {
+	if (CheckHandles()) {
+		DWORD offset = NULL;
+		int ammo = 0;
+
+		ReadProcessMemory(gtaHandle, (DWORD*)GTA_PLAYER_WEAPON_CLIP_AMMO_ADDR, &buffer, sizeof(buffer), NULL);
+
+		switch (API_GetPlayerWeaponID()) {
+			case 22: offset = 0x00; break;
+			case 23: offset = 0x00; break;
+			case 24: offset = 0x00; break;
+
+			case 25: offset = 0x1C; break;
+			case 26: offset = 0x1C; break;
+			case 27: offset = 0x1C; break;
+
+			case 28: offset = 0x38; break;
+			case 29: offset = 0x38; break;
+			case 32: offset = 0x38; break;
+
+			case 30: offset = 0x54; break;
+			case 31: offset = 0x54; break;
+
+			case 33: offset = 0x70; break;
+			case 34: offset = 0x70; break;
+
+			case 38: offset = 0x8C; break;
+		}
+
+		ReadProcessMemory(gtaHandle, (DWORD*)(buffer + 0x5E0 + offset), &ammo, sizeof(ammo), NULL);
+		return ammo;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
  * int API_GetWeaponName(int, char*&)
  *
  * @author			Slider
@@ -481,16 +526,12 @@ int API_GetWeaponName(int weaponid, char *&weaponname) {
 		"Satchel Charge", "Detonator", "Spraycan", "Fire Extinguisher", "Camera", "Night Vis Goggles", "Thermal Goggles", "Parachute"
 	};
 
-	cout << "WaffenID12: " << API_GetPlayerWeaponID() << endl;
-
 	if (CheckHandles()) {
 		if (weaponid >= 0 && weaponid <= 46 && weaponid != 19 && weaponid != 20 && weaponid != 21) {
 			memcpy(weaponname, wnames[weaponid], sizeof(wnames[weaponid]));
 		}
 
 		memcpy(weaponname, name, sizeof(name));
-
-		cout << "WaffenID2: " << weaponid << endl;
 
 		return 1;
 	}

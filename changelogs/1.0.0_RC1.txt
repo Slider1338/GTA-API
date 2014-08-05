@@ -5,6 +5,8 @@ Erledigt:
 - API_GetPlayerWeaponSlot() wurde hinzugefügt
 - API_GetVersion(char*&) Bugfix
 - API_GetServerName(char*&) wurde hinzugefügt
+- API_CountOnlinePlayers() wurde hinzugefügt
+- API_GetPlayerWeaponClipAmmo() wurde hinzugefügt
 
 Zu bearbeiten:
 - API_GetCityName(char*&) wurde hinzugefügt
