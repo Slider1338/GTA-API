@@ -31,6 +31,7 @@
 #define SAMP_SERVERNAME_ADDR 0x212A80
 #define SAMP_SERVERIP_ADDR 0x2121F5
 #define SAMP_PLAYERNAME_ADDR 0x2123F7
+#define SAMP_PLAYERSONLINE_ADDR 0x212A3C
 
 // SA:MP Function Addresses
 #define SAMP_SENDCHAT_FUNC_ADDR 0x4CA0
@@ -114,6 +115,31 @@ int API_GetServerIP(char *&serverip) {
 		memcpy(serverip, ip, sizeof(ip));
 
 		return 1;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_CountOnlinePlayers()
+ *
+ * @author			Grab
+ * @date			2014-08-05
+ * @category		SA:MP
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_CountOnlinePlayers() {
+	if (CheckHandles()) {
+		int players = 0;
+		buffer = NULL;
+
+		addr = sampDLL + SAMP_PLAYERSONLINE_ADDR;
+		ReadProcessMemory(gtaHandle, (DWORD*)(addr), &buffer, sizeof(buffer), NULL);
+
+		if (buffer != NULL) {
+			ReadProcessMemory(gtaHandle, (DWORD*)(buffer + 0x4), &players, sizeof(players), NULL);
+			return players;
+		}
 	}
 
 	return FUNCTION_ERROR_CODE;
@@ -455,12 +481,16 @@ int API_GetWeaponName(int weaponid, char *&weaponname) {
 		"Satchel Charge", "Detonator", "Spraycan", "Fire Extinguisher", "Camera", "Night Vis Goggles", "Thermal Goggles", "Parachute"
 	};
 
+	cout << "WaffenID12: " << API_GetPlayerWeaponID() << endl;
+
 	if (CheckHandles()) {
 		if (weaponid >= 0 && weaponid <= 46 && weaponid != 19 && weaponid != 20 && weaponid != 21) {
 			memcpy(weaponname, wnames[weaponid], sizeof(wnames[weaponid]));
 		}
 
 		memcpy(weaponname, name, sizeof(name));
+
+		cout << "WaffenID2: " << weaponid << endl;
 
 		return 1;
 	}

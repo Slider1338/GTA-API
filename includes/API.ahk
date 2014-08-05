@@ -10,6 +10,7 @@ if (hModule == -1 || hModule == 0) {
 ; SA:MP
 GetServerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerName")
 GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServerIP")
+CountOnlinePlayers_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_CountOnlinePlayers")
 GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerName")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
 
@@ -25,6 +26,7 @@ GetPlayerInteriorID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_G
 IsPlayerInRangeOfPoint_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInRangeOfPoint")
 GetPlayerWeaponID_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponID")
 GetPlayerWeaponSlot_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerWeaponSlot")
+GetWeaponName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetWeaponName")
 GetVehicleHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleHealth")
 IsPlayerInAnyVehicle_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAnyVehicle")
 VehicleSirenStateChange_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_VehicleSirenStateChange")
@@ -51,6 +53,12 @@ GetServerIP(ByRef ipAddress) {
 	global GetServerIP_func
 	VarSetCapacity(ipAddress, 15)
     Result := DllCall(GetServerIP_func, StrP, ipAddress)
+    return Result
+}
+
+CountOnlinePlayers() {
+	global CountOnlinePlayers_func
+    Result := DllCall(CountOnlinePlayers_func)
     return Result
 }
 
@@ -132,6 +140,13 @@ GetPlayerWeaponSlot() {
 	global GetPlayerWeaponSlot_func
 	Result := DllCall(GetPlayerWeaponSlot_func, Float, x, Float, y, Float, z, Float, radius)
 	return Result
+}
+
+GetWeaponName(weaponid, ByRef weaponname) {
+	global GetWeaponName_func
+	VarSetCapacity(weaponname, 25)
+    Result := DllCall(GetWeaponName_func, Int, weaponid, StrP, weaponname)
+    return Result
 }
 
 GetVehicleHealth() {
