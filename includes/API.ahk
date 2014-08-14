@@ -15,6 +15,7 @@ GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlay
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
 AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_AddChatMessage")
 ShowDialog_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_ShowDialog")
+IsInChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsInChat")
 
 ; GTA
 GetPlayerHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerHealth")
@@ -87,6 +88,12 @@ AddChatMessage(text) {
 ShowDialog(style, caption, info, button) {
 	global ShowDialog_func
     Result := DllCall(ShowDialog_func, Int, style, Str, caption, Str, info, Str, button)
+    return Result
+}
+
+IsInChat() {
+	global IsInChat_func
+    Result := DllCall(IsInChat_func)
     return Result
 }
 

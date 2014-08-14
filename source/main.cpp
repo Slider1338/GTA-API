@@ -26,17 +26,19 @@
 #define MAX_PLAYER_NAME 35
 #define MAX_SERVERNAME_LENGTH 50
 #define FUNCTION_ERROR_CODE -1
-#define API_VERSION "1.0.0 Beta 1"
+#define API_VERSION "1.0.0 Beta 2"
 
 // SA:MP Addresses
 #define SAMP_SERVERNAME_ADDR 0x212A80
 #define SAMP_SERVERIP_ADDR 0x2121F5
 #define SAMP_PLAYERNAME_ADDR 0x2123F7
 #define SAMP_PLAYERSONLINE_ADDR 0x212A3C
+#define SAMP_ISINCHAT_ADDR 0x212A94
 
 // SA:MP Function Addresses
 #define SAMP_SENDCHAT_FUNC_ADDR 0x4CA0
 #define SAMP_SENDCMD_FUNC_ADDR 0x7BDD0
+#define SAMP_PLAYAUDIOSTREAM_FUNC_ADDR 0x79300
 
 // GTA Addresses
 #define GTA_CPED_POINTER_ADDR 0xB6F5F0
@@ -269,8 +271,38 @@ int API_AddChatMessage(char *text) {
  */
 int API_ShowDialog(int style, const char *caption, const char *info, const char *button) {
 	if (CheckHandles()) {
-		samp.showDialog(style, caption, info, button);
+		char _caption[256] = { "• " };
+		strcat_s(_caption, caption);
+
+		samp.showDialog(style, _caption, info, button);
 		return 1;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsInChat()
+ *
+ * @author			Slider
+ * @date			2014-08-14
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsInChat() {
+	DWORD value = 0;
+
+	if (CheckHandles()) {
+		ReadProcessMemory(gtaHandle, (DWORD*)(sampDLL + SAMP_ISINCHAT_ADDR), &buffer, sizeof(buffer), NULL);
+		addr = buffer + 0x55;
+
+		ReadProcessMemory(gtaHandle, (DWORD*)addr, &value, sizeof(value), NULL);
+
+		if (value > 0) {
+			return 1;
+		}
+		
+		return 0;
 	}
 
 	return FUNCTION_ERROR_CODE;

@@ -15,6 +15,7 @@ extern "C" __declspec(dllimport) int API_GetPlayerName(char*&);
 extern "C" __declspec(dllimport) int API_SendChat(char*);
 extern "C" __declspec(dllimport) int API_AddChatMessage(char*);
 extern "C" __declspec(dllimport) int API_ShowDialog(int, const char*, const char*, const char*);
+extern "C" __declspec(dllimport) int API_IsInChat();
 
 // GTA
 extern "C" __declspec(dllimport) int API_GetPlayerHealth();
