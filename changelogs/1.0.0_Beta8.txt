@@ -1,0 +1,11 @@
+Erledigt:
+- API_VehicleSirenStateChange() Bugfix
+- API_GetVehicleSirenState() wurde hinzugefügt
+- API_GetPlayerWeaponID() wurde hinzugefügt
+- API_GetPlayerWeaponSlot() wurde hinzugefügt
+- API_GetVersion(char*&) Bugfix
+- API_GetServerName(char*&) wurde hinzugefügt
+- API_CountOnlinePlayers() wurde hinzugefügt
+- API_GetPlayerWeaponClipAmmo() wurde hinzugefügt
+- API_AddChatMessage(char*) wurde hinzugefügt
+- API_ShowDialog(int, const char*, const char*, const char*) wurde hinzugefügt

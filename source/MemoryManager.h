@@ -18,5 +18,5 @@
 using namespace std;
 
 // prototypes
-DWORD FindProcessID(const std::wstring&);
-DWORD GetModuleBaseAddress(LPCWSTR, LPCWSTR);
+DWORD GetGTAProcessID();
+DWORD GetSAMPBaseAddress();

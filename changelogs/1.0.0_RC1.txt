@@ -1,14 +1,6 @@
 Erledigt:
-- API_VehicleSirenStateChange() Bugfix
-- API_GetVehicleSirenState() wurde hinzugefügt
-- API_GetPlayerWeaponID() wurde hinzugefügt
-- API_GetPlayerWeaponSlot() wurde hinzugefügt
-- API_GetVersion(char*&) Bugfix
-- API_GetServerName(char*&) wurde hinzugefügt
-- API_CountOnlinePlayers() wurde hinzugefügt
-- API_GetPlayerWeaponClipAmmo() wurde hinzugefügt
 
 Zu bearbeiten:
-- API_GetCityName(char*&) wurde hinzugefügt
-- API_GetZoneName(char*&) wurde hinzugefügt
-- API_GetWeaponName(int, char*&) wurde hinzugefügt
+- API_GetCityName(char*&) wurde hinzugef�gt
+- API_GetZoneName(char*&) wurde hinzugef�gt
+- API_GetWeaponName(int, char*&) wurde hinzugef�gt

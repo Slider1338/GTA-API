@@ -13,6 +13,8 @@ extern "C" __declspec(dllimport) int API_GetServerIP(char*&);
 extern "C" __declspec(dllimport) int API_CountOnlinePlayers();
 extern "C" __declspec(dllimport) int API_GetPlayerName(char*&);
 extern "C" __declspec(dllimport) int API_SendChat(char*);
+extern "C" __declspec(dllimport) int API_AddChatMessage(char*);
+extern "C" __declspec(dllimport) int API_ShowDialog(int, const char*, const char*, const char*);
 
 // GTA
 extern "C" __declspec(dllimport) int API_GetPlayerHealth();
@@ -27,7 +29,6 @@ extern "C" __declspec(dllimport) int API_IsPlayerInRangeOfPoint(float, float, fl
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponID();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponSlot();
 extern "C" __declspec(dllimport) int API_GetPlayerWeaponClipAmmo();
-extern "C" __declspec(dllimport) int API_GetWeaponName(int, char*&); // Bug: weaponid ist immer -1
 extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();
 extern "C" __declspec(dllimport) int API_VehicleSirenStateChange();

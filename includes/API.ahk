@@ -13,6 +13,8 @@ GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetServer
 CountOnlinePlayers_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_CountOnlinePlayers")
 GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerName")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
+AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_AddChatMessage")
+ShowDialog_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_ShowDialog")
 
 ; GTA
 GetPlayerHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerHealth")
@@ -73,6 +75,18 @@ GetPlayerName(ByRef name) {
 SendChat(text) {
 	global SendChat_func
     Result := DllCall(SendChat_func, Str, text)
+    return Result
+}
+
+AddChatMessage(text) {
+	global AddChatMessage_func
+    Result := DllCall(AddChatMessage_func, Str, text)
+    return Result
+}
+
+ShowDialog(style, caption, info, button) {
+	global ShowDialog_func
+    Result := DllCall(ShowDialog_func, Int, style, Str, caption, Str, info, Str, button)
     return Result
 }
 

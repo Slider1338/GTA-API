@@ -2,7 +2,7 @@
  * GTA API by Slider (c) www.gta-api.de
  *
  * @author				Slider
- * @date					2014-05-09
+ * @date				2014-05-09
  * @copyright			(c) by Slider - www.gta-api.de
  * @license				General Public License <https://www.gnu.org/licenses/gpl>
  */
@@ -20,12 +20,13 @@
 #include <ctime>
 #include "main.h"
 #include "MemoryManager.h"
+#include "SAMP.hpp"
 
 // Settings
 #define MAX_PLAYER_NAME 35
 #define MAX_SERVERNAME_LENGTH 50
 #define FUNCTION_ERROR_CODE -1
-#define API_VERSION "1.0.0 RC1"
+#define API_VERSION "1.0.0 Beta 1"
 
 // SA:MP Addresses
 #define SAMP_SERVERNAME_ADDR 0x212A80
@@ -63,12 +64,15 @@ DWORD buffer;
 DWORD sampDLL;
 DWORD gtaProcessID;
 HANDLE gtaHandle;
+BYTE freezed = false;
+
+// agrippa1994 SAMP Class
+SAMP::SAMP samp;
 
 // prototypes
 int GetRealWeaponID(int);
 void ConvertHexToRGB(int, int&, int&, int&);
 int CheckHandles();
-int GetGTAProcessID();
 
 /**
  * int API_GetServerName(char *&servername)
@@ -223,6 +227,50 @@ int API_SendChat(char *text) {
 
 			return 1;
 		}
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_AddChatMessage(char* text)
+ *
+ * @author			agrippa1994
+ * @date			2014-07-31
+ * @category		SA:MP
+ * @license			agrippa1994 License <https://github.com/agrippa1994/CPP-SAMP-API/blob/master/LICENSE>
+ *
+ * @params			text			char*
+ */
+int API_AddChatMessage(char *text) {
+	if (CheckHandles()) {
+		char _text[256] = { "• {ffffff}" };
+		strcat_s(_text, text);
+
+		samp.addChatMessage(_text);
+		return 1;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_ShowDialog(int style, const char *caption, const char *info, const char *button)
+ *
+ * @author			agrippa1994
+ * @date			2014-07-31
+ * @category		SA:MP
+ * @license			agrippa1994 License <https://github.com/agrippa1994/CPP-SAMP-API/blob/master/LICENSE>
+ *
+ * @params			style			int
+ * @params			caption			char*
+ * @params			text			char*
+ * @params			button			char*
+ */
+int API_ShowDialog(int style, const char *caption, const char *info, const char *button) {
+	if (CheckHandles()) {
+		samp.showDialog(style, caption, info, button);
+		return 1;
 	}
 
 	return FUNCTION_ERROR_CODE;
@@ -503,37 +551,8 @@ int API_GetPlayerWeaponClipAmmo() {
 		}
 
 		ReadProcessMemory(gtaHandle, (DWORD*)(buffer + 0x5E0 + offset), &ammo, sizeof(ammo), NULL);
+
 		return ammo;
-	}
-
-	return FUNCTION_ERROR_CODE;
-}
-
-/**
- * int API_GetWeaponName(int, char*&)
- *
- * @author			Slider
- * @date			2014-08-04
- * @category		GTA
- * @license			General Public License <https://www.gnu.org/licenses/gpl>
- */
-int API_GetWeaponName(int weaponid, char *&weaponname) {
-	char name[20] = { "Unknown" };
-	char *wnames[47] = {
-		"Fist", "Brass Knuckles", "Golf Club", "Nightstick", "Knife", "Baseball Bat", "Shovel", "Pool Cue", "Katana", "Chainsaw", "Purple Dildo",
-		"Dildo", "Vibrator", "Silver Vibrator", "Flowers", "Cane", "Grenade", "Tear Gas", "Molotov Cocktail", "9mm", "Silenced 9mm", "Desert Eagle", "Shotgun",
-		"Sawnoff Shotgun", "Combat Shotgun", "UZI", "MP5", "AK-47", "M4", "Tec-9", "Country Rifle", "Sniper Rifle", "RPG", "HS Rocket", "Flamethrower", "Minigun",
-		"Satchel Charge", "Detonator", "Spraycan", "Fire Extinguisher", "Camera", "Night Vis Goggles", "Thermal Goggles", "Parachute"
-	};
-
-	if (CheckHandles()) {
-		if (weaponid >= 0 && weaponid <= 46 && weaponid != 19 && weaponid != 20 && weaponid != 21) {
-			memcpy(weaponname, wnames[weaponid], sizeof(wnames[weaponid]));
-		}
-
-		memcpy(weaponname, name, sizeof(name));
-
-		return 1;
 	}
 
 	return FUNCTION_ERROR_CODE;
@@ -1053,21 +1072,8 @@ int CheckHandles() {
 	if (!gtaHandle) return 0;
 
 	// get samp.dll module base address
-	sampDLL = GetModuleBaseAddress(L"gta_sa.exe", L"samp.dll");
+	sampDLL = GetSAMPBaseAddress();
 	if (!sampDLL) return 0;
 
 	return 1;
-}
-
-/**
- * int GetGTAProcessID()
- *
- * @author			Slider
- * @date			2014-05-09
- * @category		API
- * @license			General Public License <https://www.gnu.org/licenses/gpl>
- */
-int GetGTAProcessID() {
-	DWORD processID = FindProcessID(L"gta_sa.exe");
-	return processID;
 }

@@ -15,94 +15,51 @@
 #include "MemoryManager.h"
 
 /**
-* FindProcessId
-*
-* @params		processName			string
-*/
-DWORD FindProcessID(const std::wstring& processName)
-{
-	PROCESSENTRY32 processInfo;
-	processInfo.dwSize = sizeof(processInfo);
+ * DWORD GetGTAProcessID()
+ *
+ * @author			Slider
+ * @date			2014-05-09
+ * @category		API
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+DWORD GetGTAProcessID() {
+	DWORD processID;
+	GetWindowThreadProcessId(FindWindow(0, "GTA:SA:MP"), &processID);
 
-	HANDLE processesSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-	if (processesSnapshot == INVALID_HANDLE_VALUE)
-		return 0;
-
-	Process32First(processesSnapshot, &processInfo);
-	if (!processName.compare(processInfo.szExeFile))
-	{
-		CloseHandle(processesSnapshot);
-		return processInfo.th32ProcessID;
-	}
-
-	while (Process32Next(processesSnapshot, &processInfo))
-	{
-		if (!processName.compare(processInfo.szExeFile))
-		{
-			CloseHandle(processesSnapshot);
-			return processInfo.th32ProcessID;
-		}
-	}
-
-	CloseHandle(processesSnapshot);
-	return 0;
+	return processID;
 }
 
 /**
-* GetModuleBaseAddress
-*
-* @params			szProcessName			LPCWSTR
-* @params			szModuleName			LPCWSTR
+ * DWORD GetSAMPBaseAddress
+ * @author			agrippa1994
+ * @date			2014-07-31
+ * @category		API
+ * @license			agrippa1994 License <https://github.com/agrippa1994/CPP-SAMP-API/blob/master/LICENSE>
 */
-DWORD GetModuleBaseAddress(LPCWSTR szProcessName, LPCWSTR szModuleName)
+DWORD GetSAMPBaseAddress()
 {
-	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	PROCESSENTRY32 pe32;
+	DWORD m_dwSAMPBase = 0;
 
-	if (hSnap == INVALID_HANDLE_VALUE)
-	{
-		return 0;
-	}
-	pe32.dwSize = sizeof(PROCESSENTRY32);
-	if (Process32First(hSnap, &pe32) == 0)
-	{
-		CloseHandle(hSnap);
-		return 0;
-	}
+	if (GetGTAProcessID()) {
+		HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetGTAProcessID());
+		if (hSnapshot == INVALID_HANDLE_VALUE)
+			return false;
 
-	do
-	{
-		if (lstrcmp(pe32.szExeFile, szProcessName) == 0)
+		MODULEENTRY32 entry;
+		entry.dwSize = sizeof(MODULEENTRY32);
+
+		Module32First(hSnapshot, &entry);
+		do
 		{
-			int PID;
-			PID = pe32.th32ProcessID;
-
-			HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, PID);
-			MODULEENTRY32 xModule;
-
-			if (hSnap == INVALID_HANDLE_VALUE)
+			if (_stricmp(entry.szModule, "samp.dll") == 0)
 			{
-				return 0;
+				m_dwSAMPBase = (DWORD)entry.modBaseAddr;
+				break;
 			}
-			xModule.dwSize = sizeof(MODULEENTRY32);
-			if (Module32First(hSnap, &xModule) == 0)
-			{
-				CloseHandle(hSnap);
-				return 0;
-			}
+		} while (Module32Next(hSnapshot, &entry));
 
-			do
-			{
-				if (lstrcmp(xModule.szModule, szModuleName) == 0)
-				{
-					CloseHandle(hSnap);
-					return (DWORD)xModule.modBaseAddr;
-				}
-			} while (Module32Next(hSnap, &xModule));
-			CloseHandle(hSnap);
-			return 0;
-		}
-	} while (Process32Next(hSnap, &pe32));
-	CloseHandle(hSnap);
-	return 0;
+		CloseHandle(hSnapshot);
+	}
+
+	return m_dwSAMPBase;
 }
