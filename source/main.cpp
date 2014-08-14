@@ -286,7 +286,7 @@ int API_ShowDialog(int style, const char *caption, const char *info, const char 
  *
  * @author			Slider
  * @date			2014-08-14
- * @category		GTA
+ * @category		SA:MP
  * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
 int API_IsInChat() {
