@@ -26,7 +26,7 @@
 #define MAX_PLAYER_NAME 35
 #define MAX_SERVERNAME_LENGTH 50
 #define FUNCTION_ERROR_CODE -1
-#define API_VERSION "1.0.0 Beta 2"
+#define API_VERSION "1.0.0 Beta 3"
 
 // SA:MP Addresses
 #define SAMP_SERVERNAME_ADDR 0x212A80
@@ -66,7 +66,6 @@ DWORD buffer;
 DWORD sampDLL;
 DWORD gtaProcessID;
 HANDLE gtaHandle;
-BYTE freezed = false;
 
 // agrippa1994 SAMP Class
 SAMP::SAMP samp;
