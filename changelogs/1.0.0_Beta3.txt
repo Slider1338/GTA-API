@@ -1,0 +1,7 @@
+Erledigt:
+- API_GetPlayerMoney() wurde hinzugefügt
+
+Noch nicht erledigt:
+- API_GetCityName(char*&) wurde hinzugefügt
+- API_GetZoneName(char*&) wurde hinzugefügt
+- API_GetWeaponName(int, char*&) wurde hinzugefügt

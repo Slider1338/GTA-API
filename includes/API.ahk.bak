@@ -101,7 +101,7 @@ IsInChat() {
 ; GTA
 GetPlayerMoney() {
 	global GetPlayerMoney_func
-    Result := DllCall(GetPlayerMoney_func)
+    Result := DllCall(GetPlayerHealth_func)
     return Result
 }
 

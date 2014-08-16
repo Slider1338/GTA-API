@@ -42,6 +42,7 @@
 
 // GTA Addresses
 #define GTA_CPED_POINTER_ADDR 0xB6F5F0
+#define GTA_PLAYER_MONEY 0xB7CE50
 #define GTA_PLAYER_HEALTH_ADDR 0x540
 #define GTA_PLAYER_ARMOUR_ADDR 0x548
 #define GTA_PLAYER_POS_X 0xB6F2E4
@@ -302,6 +303,25 @@ int API_IsInChat() {
 		}
 		
 		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_GetPlayerMoney()
+ *
+ * @author			Slider
+ * @date			2014-08-16
+ * @category		SA:MP
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetPlayerMoney() {
+	if (CheckHandles()) {
+		int money;
+		
+		ReadProcessMemory(gtaHandle, (DWORD*)GTA_PLAYER_MONEY, &money, sizeof(money), NULL);
+		return money;
 	}
 
 	return FUNCTION_ERROR_CODE;

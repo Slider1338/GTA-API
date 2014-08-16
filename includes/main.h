@@ -18,6 +18,7 @@ extern "C" __declspec(dllimport) int API_ShowDialog(int, const char*, const char
 extern "C" __declspec(dllimport) int API_IsInChat();
 
 // GTA
+extern "C" __declspec(dllimport) int API_GetPlayerMoney();
 extern "C" __declspec(dllimport) int API_GetPlayerHealth();
 extern "C" __declspec(dllimport) int API_GetPlayerArmour();
 extern "C" __declspec(dllimport) int API_GetPlayerPos(float&, float&, float&);

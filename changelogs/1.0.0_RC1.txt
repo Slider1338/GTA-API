@@ -1,6 +1,0 @@
-Erledigt:
-
-Zu bearbeiten:
-- API_GetCityName(char*&) wurde hinzugefügt
-- API_GetZoneName(char*&) wurde hinzugefügt
-- API_GetWeaponName(int, char*&) wurde hinzugefügt
