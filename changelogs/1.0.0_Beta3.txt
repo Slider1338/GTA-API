@@ -1,7 +1,6 @@
 Erledigt:
 - API_GetPlayerMoney() wurde hinzugefügt
-
-Noch nicht erledigt:
 - API_GetCityName(char*&) wurde hinzugefügt
 - API_GetZoneName(char*&) wurde hinzugefügt
-- API_GetWeaponName(int, char*&) wurde hinzugefügt
+- API_IsPlayerInArea(float, float, float, float) wurde hinzugefügt
+- API_GetChatLine(int, char*&) wurde hinzugefügt

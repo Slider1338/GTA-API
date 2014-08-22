@@ -16,6 +16,7 @@ SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SendChat")
 AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_AddChatMessage")
 ShowDialog_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_ShowDialog")
 IsInChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsInChat")
+GetChatLine_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetChatLine")
 
 ; GTA
 GetPlayerMoney_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetPlayerMoney")
@@ -36,6 +37,9 @@ GetVehicleHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetV
 IsPlayerInAnyVehicle_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAnyVehicle")
 VehicleSirenStateChange_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_VehicleSirenStateChange")
 GetVehicleSirenState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleSirenState")
+IsPlayerInArea_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInArea")
+GetCityName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetCityName")
+GetZoneName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetZoneName")
 
 ; Interface
 SetInterfaceHealthColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SetInterfaceHealthColor")
@@ -95,6 +99,12 @@ ShowDialog(style, caption, info, button) {
 IsInChat() {
 	global IsInChat_func
     Result := DllCall(IsInChat_func)
+    return Result
+}
+
+GetChatLine(line, ByRef content) {
+	global GetChatLine_func
+    Result := DllCall(GetChatLine_func, Int, line, StrP, content)
     return Result
 }
 
@@ -205,6 +215,24 @@ VehicleSirenStateChange() {
 GetVehicleSirenState() {
 	global GetVehicleSirenState_func
     Result := DllCall(GetVehicleSirenState_func)
+    return Result
+}
+
+IsPlayerInArea(float x1, float y1, float z1, float x2, float y2, float z2) {
+	global IsPlayerInArea_func
+    Result := DllCall(IsPlayerInArea_func, Float, x1, Float, y1, Float, z1, Float, x2, Float, y2, Float, z2)
+    return Result
+}
+
+GetCityName(ByRef city) {
+	global GetCityName_func
+    Result := DllCall(GetCityName_func, StrP, city)
+    return Result
+}
+
+GetZoneName(ByRef zone) {
+	global GetZoneName_func
+    Result := DllCall(GetZoneName_func, StrP, zone)
     return Result
 }
 

@@ -16,6 +16,7 @@ extern "C" __declspec(dllimport) int API_SendChat(char*);
 extern "C" __declspec(dllimport) int API_AddChatMessage(char*);
 extern "C" __declspec(dllimport) int API_ShowDialog(int, const char*, const char*, const char*);
 extern "C" __declspec(dllimport) int API_IsInChat();
+extern "C" __declspec(dllimport) int API_GetChatLine(int, char*&);
 
 // GTA
 extern "C" __declspec(dllimport) int API_GetPlayerMoney();
@@ -35,6 +36,9 @@ extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();
 extern "C" __declspec(dllimport) int API_VehicleSirenStateChange();
 extern "C" __declspec(dllimport) int API_GetVehicleSirenState();
+extern "C" __declspec(dllimport) int API_IsPlayerInArea(float, float, float, float);
+extern "C" __declspec(dllimport) int API_GetCityName(char*&);
+extern "C" __declspec(dllimport) int API_GetZoneName(char*&);
 
 // Interface
 extern "C" __declspec(dllimport) int API_SetInterfaceHealthColor(int);

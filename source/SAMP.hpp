@@ -186,5 +186,17 @@ namespace SAMP
 
 			return call(dwObject, m_dwSAMPBase + Addresses::Functions::ShowDialog, false, 0, m_dwSAMPBase + Addresses::Other::AdditionalDialogInfo, button, info, caption, style, 1);
 		}
+
+		bool updatePlayerData()
+		{
+			if (!openSAMP())
+				return false;
+
+			DWORD dwObject = read(m_dwSAMPBase + Addresses::Objects::DialogInfo, 0);
+			if (dwObject == 0)
+				return false;
+
+			return call(dwObject, m_dwSAMPBase + 0x7D10, false);
+		}
 	};
 }
