@@ -104,6 +104,7 @@ IsInChat() {
 
 GetChatLine(line, ByRef content) {
 	global GetChatLine_func
+	VarSetCapacity(content, 256)
     Result := DllCall(GetChatLine_func, Int, line, StrP, content)
     return Result
 }
@@ -218,20 +219,22 @@ GetVehicleSirenState() {
     return Result
 }
 
-IsPlayerInArea(float x1, float y1, float z1, float x2, float y2, float z2) {
+IsPlayerInArea(x1, y1, x2, y2) {
 	global IsPlayerInArea_func
-    Result := DllCall(IsPlayerInArea_func, Float, x1, Float, y1, Float, z1, Float, x2, Float, y2, Float, z2)
+    Result := DllCall(IsPlayerInArea_func, Float, x1, Float, y1, Float, x2, Float, y2)
     return Result
 }
 
 GetCityName(ByRef city) {
 	global GetCityName_func
+	VarSetCapacity(city, 20)
     Result := DllCall(GetCityName_func, StrP, city)
     return Result
 }
 
 GetZoneName(ByRef zone) {
 	global GetZoneName_func
+	VarSetCapacity(zone, 40)
     Result := DllCall(GetZoneName_func, StrP, zone)
     return Result
 }
