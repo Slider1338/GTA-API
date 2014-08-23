@@ -58,6 +58,7 @@ SetInterfaceMoneyColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "AP
 SetInterfaceWantedLevelColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_SetInterfaceWantedLevelColor")
 
 ; Randomshit
+IsUpdateAvailable_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsUpdateAvailable")
 GetVersion_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVersion")
 GetTimestamp_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetTimestamp")
 
@@ -336,6 +337,12 @@ SetInterfaceWantedLevelColor(color) {
 }
 
 ; Randomshit
+IsUpdateAvailable() {
+	global IsUpdateAvailable_func
+    Result := DllCall(IsUpdateAvailable_func)
+    return Result
+}
+
 GetVersion(ByRef version) {
 	global GetVersion_func
 	VarSetCapacity(version, 15)

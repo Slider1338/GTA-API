@@ -35,7 +35,7 @@
 #define MAX_ZONES 377
 #define MAX_CHATLINES 100
 #define API_VERSION "1.0.0 Beta 4"
-#define UPDATE_SERVER_ADDR "http://update.gta-api.de"
+#define UPDATE_SERVER_ADDR "update.gta-api.de"
 
 // SA:MP Addresses
 #define SAMP_SERVERNAME_ADDR 0x212A80
@@ -127,6 +127,11 @@ char chatlogPath[MAX_PATH] = { 0 };
 int chatlogPathCreated = 0;
 int lastUpdateCheck = 0;
 int updateAvailable = 0;
+
+// airplanes
+int AirplaneModels[20] = {
+	417, 425, 447, 460, 469, 476, 487, 488, 497, 511, 512, 513, 519, 520, 548, 553, 563, 577, 592, 593
+};
 
 // agrippa1994 SAMP Class
 SAMP::SAMP samp;
@@ -990,6 +995,12 @@ int API_IsPlayerInACar() {
 	if (CheckHandles()) {
 		if (API_IsPlayerInAnyVehicle()) {
 			if (API_GetVehicleType() == 1) {
+				for (int i = 0; i < sizeof(AirplaneModels); i++) {
+					if (AirplaneModels[i] == API_GetVehicleModelID()) {
+						return 0;
+					}
+				}
+
 				return 1;
 			}
 		}
@@ -1055,7 +1066,7 @@ int API_IsPlayerInATrain() {
 int API_IsPlayerInABike() {
 	if (CheckHandles()) {
 		if (API_IsPlayerInAnyVehicle()) {
-			if (API_GetVehicleType() == 4) {
+			if (API_GetVehicleType() == 4 && API_GetVehicleModelID() != 481 && API_GetVehicleModelID() != 509 && API_GetVehicleModelID() != 510) {
 				return 1;
 			}
 		}
@@ -1077,8 +1088,10 @@ int API_IsPlayerInABike() {
 int API_IsPlayerInAPlane() {
 	if (CheckHandles()) {
 		if (API_IsPlayerInAnyVehicle()) {
-			if (API_GetVehicleType() == 1) {
-				return 1;
+			for (int i = 0; i < sizeof(AirplaneModels); i++) {
+				if (AirplaneModels[i] == API_GetVehicleModelID()) {
+					return 1;
+				}
 			}
 		}
 
@@ -1099,7 +1112,7 @@ int API_IsPlayerInAPlane() {
 int API_IsPlayerInABicycle() {
 	if (CheckHandles()) {
 		if (API_IsPlayerInAnyVehicle()) {
-			if (API_GetVehicleType() == 4) {
+			if (API_GetVehicleModelID() == 481 || API_GetVehicleModelID() == 509 || API_GetVehicleModelID() == 510) {
 				return 1;
 			}
 		}
@@ -1273,6 +1286,7 @@ int API_IsUpdateAvailable() {
 		HINTERNET hInternet = InternetOpen("SAMP API", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 		HINTERNET hConnect = InternetConnect(hInternet, UPDATE_SERVER_ADDR, 80, NULL, NULL, INTERNET_SERVICE_HTTP, 0, NULL);
 		HINTERNET hRequest = HttpOpenRequest(hConnect, "GET", "/index.php", NULL, NULL, parrAcceptTypes, 0, 0);
+		HttpSendRequest(hRequest, NULL, 0, NULL, 0);
 
 		// read
 		while (bKeepReading && dwBytesRead != 0) {
@@ -1289,7 +1303,6 @@ int API_IsUpdateAvailable() {
 		lastUpdateCheck = GetTickCount();
 
 		// is update available?
-		cout << "RESPONNNNNNSE: " << response << endl;
 		if (API_VERSION != response) {
 			updateAvailable = 1;
 		}
