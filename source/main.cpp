@@ -20,6 +20,7 @@
 #include <ctime>
 #include <vector>
 #include <Shlobj.h>
+#include <WinInet.h>
 #include "main.h"
 #include "MemoryManager.h"
 #include "SAMP.hpp"
@@ -33,7 +34,8 @@
 #define MAX_CITYS 10
 #define MAX_ZONES 377
 #define MAX_CHATLINES 100
-#define API_VERSION "1.0.0 Beta 3"
+#define API_VERSION "1.0.0 Beta 4"
+#define UPDATE_SERVER_ADDR "http://update.gta-api.de"
 
 // SA:MP Addresses
 #define SAMP_SERVERNAME_ADDR 0x212A80
@@ -62,6 +64,9 @@
 #define GTA_VEHICLE_HEALTH_ADDR 0x4C0
 #define GTA_VEHICLE_SIREN_STATE_ADDR 0x42D
 #define GTA_VEHICLE_LOCK_STATE_ADDR 0x4F8
+#define GTA_PLAYERSTATE_INCAR_ADDR 0x530
+#define GTA_VEHICLE_DOORSTATE_ADDR 0x4F8
+#define GTA_VEHICLE_ENGINESTATE_ADDR 0x428
 
 // Interface Addresses
 #define INTERFACE_HEALTH_COLOR_ADDR 0xBAB22C
@@ -70,6 +75,7 @@
 
 // link libraries
 #pragma comment(lib, "Shell32.lib")
+#pragma comment (lib, "wininet.lib")
 
 // chatlines
 struct ChatLines {
@@ -117,6 +123,8 @@ int chatlogSize = 0;
 vector<string> chatlog;
 char chatlogPath[MAX_PATH] = { 0 };
 int chatlogPathCreated = 0;
+int lastUpdateCheck = 0;
+int updateAvailable = 0;
 
 // agrippa1994 SAMP Class
 SAMP::SAMP samp;
@@ -419,6 +427,7 @@ int API_GetPlayerMoney() {
 		int money;
 		
 		ReadProcessMemory(gtaHandle, (DWORD*)GTA_PLAYER_MONEY, &money, sizeof(money), NULL);
+
 		return money;
 	}
 
@@ -741,7 +750,14 @@ int API_GetVehicleHealth() {
  */
 int API_IsPlayerInAnyVehicle() {
 	if (CheckHandles()) {
-		if (API_GetVehicleHealth()) {
+		DWORD value;
+
+		ReadProcessMemory(gtaHandle, (DWORD*)GTA_CPED_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+
+		addr = buffer + GTA_PLAYERSTATE_INCAR_ADDR;
+		ReadProcessMemory(gtaHandle, (LPCVOID)(addr), &value, sizeof(value), NULL);
+
+		if (value == 50) {
 			return 1;
 		}
 
@@ -812,6 +828,64 @@ int API_GetVehicleSirenState() {
 			}
 			else if ((int)value == 80) {
 				return 0;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_GetVehicleLockState()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetVehicleLockState() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			DWORD value;
+
+			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+
+			addr = buffer + GTA_VEHICLE_DOORSTATE_ADDR;
+			ReadProcessMemory(gtaHandle, (LPCVOID)(addr), &value, sizeof(value), NULL);
+
+			if (value == 2) {
+				return 1;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_GetVehicleEngineState()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetVehicleEngineState() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			BYTE value;
+
+			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+
+			addr = buffer + GTA_VEHICLE_ENGINESTATE_ADDR;
+			ReadProcessMemory(gtaHandle, (LPCVOID)(addr), &value, sizeof(value), NULL);
+
+			if ((int)value == 24) {
+				return 1;
 			}
 		}
 
@@ -963,6 +1037,79 @@ int API_SetInterfaceWantedLevelColor(int color) {
 
 	return 0;
 }
+
+/**
+ * int API_IsUpdateAvailable()
+ *
+ * @author			Slider
+ * @date			2014-08-22
+ * @category		Randomshit
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsUpdateAvailable() {
+	if ((lastUpdateCheck + 300000) < GetTickCount()) {
+		string response;
+		char buffer[1024];
+		BOOL bKeepReading = true;
+		DWORD dwBytesRead = -1;
+		const char* parrAcceptTypes[] = { "text/*", NULL };
+
+		// connection
+		HINTERNET hInternet = InternetOpen("SAMP API", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+		HINTERNET hConnect = InternetConnect(hInternet, UPDATE_SERVER_ADDR, 80, NULL, NULL, INTERNET_SERVICE_HTTP, 0, NULL);
+		HINTERNET hRequest = HttpOpenRequest(hConnect, "GET", "/index.php", NULL, NULL, parrAcceptTypes, 0, 0);
+
+		// read
+		while (bKeepReading && dwBytesRead != 0) {
+			bKeepReading = InternetReadFile(hRequest, buffer, sizeof(buffer), &dwBytesRead);
+			response.append(buffer, dwBytesRead);
+		}
+
+		// close
+		InternetCloseHandle(hRequest);
+		InternetCloseHandle(hConnect);
+		InternetCloseHandle(hInternet);
+
+		// set last checktime
+		lastUpdateCheck = GetTickCount();
+
+		// is update available?
+		cout << "RESPONNNNNNSE: " << response << endl;
+		if (API_VERSION != response) {
+			updateAvailable = 1;
+		}
+		else {
+			updateAvailable = 0;
+		}
+	}
+
+	return updateAvailable;
+}
+/*
+string str = "/index.php?n=" + filename + "&h=" + checksum + "&d=" + dir + "&key=" + accesskey;
+
+HINTERNET hInternet = InternetOpenW(L"COSA Launcher", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+HINTERNET hConnect = InternetConnectW(hInternet, L"anticheat.city-of-sa.de", 80, NULL, NULL, INTERNET_SERVICE_HTTP, 0, NULL);
+const wchar_t* parrAcceptTypes[] = { L"text/*", NULL };
+HINTERNET hRequest = HttpOpenRequestW(hConnect, L"GET", wstring(str.begin(), str.end()).c_str(), NULL, NULL, parrAcceptTypes, 0, 0);
+BOOL bRequestSent = HttpSendRequestW(hRequest, NULL, 0, NULL, 0);
+
+std::string strResponse;
+const int nBuffSize = 1024;
+char buff[nBuffSize];
+
+BOOL bKeepReading = true;
+DWORD dwBytesRead = -1;
+
+while (bKeepReading && dwBytesRead != 0) {
+	bKeepReading = InternetReadFile(hRequest, buff, nBuffSize, &dwBytesRead);
+	strResponse.append(buff, dwBytesRead);
+}
+
+InternetCloseHandle(hRequest);
+InternetCloseHandle(hConnect);
+InternetCloseHandle(hInternet);
+*/
 
 /**
  * int API_GetVersion()

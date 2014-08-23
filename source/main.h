@@ -36,6 +36,8 @@ extern "C" __declspec(dllimport) int API_GetVehicleHealth();
 extern "C" __declspec(dllimport) int API_IsPlayerInAnyVehicle();
 extern "C" __declspec(dllimport) int API_VehicleSirenStateChange();
 extern "C" __declspec(dllimport) int API_GetVehicleSirenState();
+extern "C" __declspec(dllimport) int API_GetVehicleLockState();
+extern "C" __declspec(dllimport) int API_GetVehicleEngineState();
 extern "C" __declspec(dllimport) int API_IsPlayerInArea(float, float, float, float);
 extern "C" __declspec(dllimport) int API_GetCityName(char*&);
 extern "C" __declspec(dllimport) int API_GetZoneName(char*&);
@@ -46,5 +48,6 @@ extern "C" __declspec(dllimport) int API_SetInterfaceMoneyColor(int);
 extern "C" __declspec(dllimport) int API_SetInterfaceWantedLevelColor(int);
 
 // Randomshit
+extern "C" __declspec(dllimport) int API_IsUpdateAvailable();
 extern "C" __declspec(dllimport) int API_GetVersion(char*&);
 extern "C" __declspec(dllimport) int API_GetTimestamp();

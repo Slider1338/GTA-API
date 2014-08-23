@@ -229,7 +229,7 @@ GetVehicleLockState() {
 
 GetVehicleEngineState() {
 	global GetVehicleEngineState_func
-    Result := DllCall(GetVehicleEngineState_func)
+    Result := DllCall(GetVehicleSirenState_func)
     return Result
 }
 

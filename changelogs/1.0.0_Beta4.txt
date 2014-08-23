@@ -1,0 +1,8 @@
+Wurde bereits erledigt:
+- API_IsPlayerInAnyVehicle() wurde vom Quellcode überarbeitet
+- API_GetVehicleLockState() wurde hinzugefügt
+- API_GetVehicleEngineState() wurde hinzugefügt
+
+Noch nicht erledigt:
+- API_GetVehicleModelID() wurde hinzugefügt
+- API_GetVehicleLightState() wurde hinzugefügt
