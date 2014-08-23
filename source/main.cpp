@@ -309,7 +309,7 @@ int API_SendChat(char *text) {
  */
 int API_AddChatMessage(char *text) {
 	if (CheckHandles()) {
-		char _text[256] = { "ï {ffffff}" };
+		char _text[256] = { "‚Ä¢ {ffffff}" };
 		strcat_s(_text, text);
 
 		samp.addChatMessage(_text);
@@ -334,7 +334,7 @@ int API_AddChatMessage(char *text) {
  */
 int API_ShowDialog(int style, const char *caption, const char *info, const char *button) {
 	if (CheckHandles()) {
-		char _caption[256] = { "ï " };
+		char _caption[256] = { "‚Ä¢ " };
 		strcat_s(_caption, caption);
 
 		samp.showDialog(style, _caption, info, button);
@@ -1300,31 +1300,6 @@ int API_IsUpdateAvailable() {
 
 	return updateAvailable;
 }
-/*
-string str = "/index.php?n=" + filename + "&h=" + checksum + "&d=" + dir + "&key=" + accesskey;
-
-HINTERNET hInternet = InternetOpenW(L"COSA Launcher", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-HINTERNET hConnect = InternetConnectW(hInternet, L"anticheat.city-of-sa.de", 80, NULL, NULL, INTERNET_SERVICE_HTTP, 0, NULL);
-const wchar_t* parrAcceptTypes[] = { L"text/*", NULL };
-HINTERNET hRequest = HttpOpenRequestW(hConnect, L"GET", wstring(str.begin(), str.end()).c_str(), NULL, NULL, parrAcceptTypes, 0, 0);
-BOOL bRequestSent = HttpSendRequestW(hRequest, NULL, 0, NULL, 0);
-
-std::string strResponse;
-const int nBuffSize = 1024;
-char buff[nBuffSize];
-
-BOOL bKeepReading = true;
-DWORD dwBytesRead = -1;
-
-while (bKeepReading && dwBytesRead != 0) {
-	bKeepReading = InternetReadFile(hRequest, buff, nBuffSize, &dwBytesRead);
-	strResponse.append(buff, dwBytesRead);
-}
-
-InternetCloseHandle(hRequest);
-InternetCloseHandle(hConnect);
-InternetCloseHandle(hInternet);
-*/
 
 /**
  * int API_GetVersion()
@@ -1827,7 +1802,7 @@ int GetRealWeaponID(int weaponid) {
 			return 1;
 		}
 
-		// Golfschl‰ger
+		// Golfschl√§ger
 		case 77:
 		{
 			return 2;
@@ -1845,13 +1820,13 @@ int GetRealWeaponID(int weaponid) {
 			return 4;
 		}
 
-		// Baseball Schl‰ger
+		// Baseball Schl√§ger
 		case 80:
 		{
 			return 5;
 		}
 
-		// Baseball Schl‰ger
+		// Baseball Schl√§ger
 		case 81:
 		{
 			return 6;
@@ -1869,7 +1844,7 @@ int GetRealWeaponID(int weaponid) {
 			return 8;
 		}
 
-		// Kettens‰ge
+		// Kettens√§ge
 		case 85:
 		{
 			return 9;
@@ -1917,7 +1892,7 @@ int GetRealWeaponID(int weaponid) {
 			return 16;
 		}
 
-		// Tr‰nengas
+		// Tr√§nengas
 		case 87:
 		{
 			return 17;
@@ -1935,7 +1910,7 @@ int GetRealWeaponID(int weaponid) {
 			return 22;
 		}
 
-		// 9mm Schalld‰mpfer
+		// 9mm Schalld√§mpfer
 		case 91:
 		{
 			return 23;
@@ -1953,7 +1928,7 @@ int GetRealWeaponID(int weaponid) {
 			return 25;
 		}
 
-		// Abges‰gte Schrotflinte
+		// Abges√§gte Schrotflinte
 		case 94:
 		{
 			return 26;
@@ -2049,7 +2024,7 @@ int GetRealWeaponID(int weaponid) {
 			return 41;
 		}
 
-		// Feuerlˆscher
+		// Feuerl√∂scher
 		case 110:
 		{
 			return 42;
@@ -2061,13 +2036,13 @@ int GetRealWeaponID(int weaponid) {
 			return 43;
 		}
 
-		// Nachtsichtger‰t
+		// Nachtsichtger√§t
 		case 112:
 		{
 			return 44;
 		}
 
-		// Thermalsichtger‰t
+		// Thermalsichtger√§t
 		case 113:
 		{
 			return 45;
