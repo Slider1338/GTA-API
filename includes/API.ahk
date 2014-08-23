@@ -39,6 +39,7 @@ VehicleSirenStateChange_func := DllCall("GetProcAddress", UInt, hModule, Str, "A
 GetVehicleSirenState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleSirenState")
 GetVehicleLockState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleLockState")
 GetVehicleEngineState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleEngineState")
+GetVehicleLightState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleLightState")
 IsPlayerInArea_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInArea")
 GetCityName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetCityName")
 GetZoneName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetZoneName")
@@ -230,6 +231,12 @@ GetVehicleLockState() {
 GetVehicleEngineState() {
 	global GetVehicleEngineState_func
     Result := DllCall(GetVehicleEngineState_func)
+    return Result
+}
+
+GetVehicleLightState() {
+	global GetVehicleLightState_func
+    Result := DllCall(GetVehicleLightState_func)
     return Result
 }
 
