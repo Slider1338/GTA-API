@@ -10,7 +10,7 @@ Wurde bereits erledigt:
 - API_IsPlayerInABike() wurde hinzugefügt
 - API_IsPlayerInAPlane() wurde hinzugefügt
 - API_IsPlayerInABicycle() wurde hinzugefügt
+- API_GetVehicleModelID() wurde hinzugefügt
 
 Noch nicht erledigt:
-- API_GetVehicleModelID() wurde hinzugefügt
 - API_IsUpdateAvailable() wurde hinzugefügt

@@ -68,6 +68,7 @@
 #define GTA_VEHICLE_ENGINESTATE_ADDR 0x428
 #define GTA_VEHICLE_LIGHTSTATE_ADDR 0x584
 #define GTA_VEHICLE_TYPE_ADDR 0x590
+#define GTA_VEHICLE_MODEL_ADDR 0x22
 
 // Interface Addresses
 #define INTERFACE_HEALTH_COLOR_ADDR 0xBAB22C
@@ -922,7 +923,30 @@ int API_GetVehicleLightState() {
 	return FUNCTION_ERROR_CODE;
 }
 
-//0xB700F0
+/**
+ * int API_GetVehicleModelID()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetVehicleModelID() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			short value;
+
+			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+			ReadProcessMemory(gtaHandle, (DWORD*)(buffer + GTA_VEHICLE_MODEL_ADDR), &value, sizeof(value), NULL);
+
+			return (int)value;
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
 
 /**
  * int API_GetVehicleType()

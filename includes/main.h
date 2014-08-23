@@ -39,6 +39,7 @@ extern "C" __declspec(dllimport) int API_GetVehicleSirenState();
 extern "C" __declspec(dllimport) int API_GetVehicleLockState();
 extern "C" __declspec(dllimport) int API_GetVehicleEngineState();
 extern "C" __declspec(dllimport) int API_GetVehicleLightState();
+extern "C" __declspec(dllimport) int API_GetVehicleModelID();
 extern "C" __declspec(dllimport) int API_GetVehicleType();
 extern "C" __declspec(dllimport) int API_IsPlayerInACar();
 extern "C" __declspec(dllimport) int API_IsPlayerInABoat();
