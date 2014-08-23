@@ -881,11 +881,9 @@ int API_GetVehicleEngineState() {
 			BYTE value;
 
 			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+			ReadProcessMemory(gtaHandle, (DWORD*)(buffer + GTA_VEHICLE_ENGINESTATE_ADDR), &value, sizeof(value), NULL);
 
-			addr = buffer + GTA_VEHICLE_ENGINESTATE_ADDR;
-			ReadProcessMemory(gtaHandle, (LPCVOID)(addr), &value, sizeof(value), NULL);
-
-			if ((int)value == 24) {
+			if ((int)value > 0) {
 				return 1;
 			}
 		}
@@ -910,7 +908,7 @@ int API_GetVehicleLightState() {
 			DWORD value;
 
 			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
-			ReadProcessMemory(gtaHandle, (LPCVOID)(buffer + GTA_VEHICLE_LIGHTSTATE_ADDR), &value, sizeof(value), NULL);
+			ReadProcessMemory(gtaHandle, (DWORD*)(buffer + GTA_VEHICLE_LIGHTSTATE_ADDR), &value, sizeof(value), NULL);
 
 			return (int)value;
 		}
@@ -920,6 +918,8 @@ int API_GetVehicleLightState() {
 
 	return FUNCTION_ERROR_CODE;
 }
+
+//0xB700F0
 
 /**
  * int API_GetVehicleType()
