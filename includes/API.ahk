@@ -40,6 +40,13 @@ GetVehicleSirenState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_
 GetVehicleLockState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleLockState")
 GetVehicleEngineState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleEngineState")
 GetVehicleLightState_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleLightState")
+GetVehicleType_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetVehicleType")
+IsPlayerInACar_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInACar")
+IsPlayerInABoat_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInABoat")
+IsPlayerInATrain_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInATrain")
+IsPlayerInABike_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInABike")
+IsPlayerInAPlane_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInAPlane")
+IsPlayerInABicycle_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInABicycle")
 IsPlayerInArea_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_IsPlayerInArea")
 GetCityName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetCityName")
 GetZoneName_func := DllCall("GetProcAddress", UInt, hModule, Str, "API_GetZoneName")
@@ -237,6 +244,48 @@ GetVehicleEngineState() {
 GetVehicleLightState() {
 	global GetVehicleLightState_func
     Result := DllCall(GetVehicleLightState_func)
+    return Result
+}
+
+GetVehicleType() {
+	global GetVehicleLightState_func
+    Result := DllCall(GetVehicleLightState_func)
+    return Result
+}
+
+IsPlayerInACar() {
+	global IsPlayerInACar_func
+    Result := DllCall(IsPlayerInACar_func)
+    return Result
+}
+
+IsPlayerInABoat() {
+	global IsPlayerInABoat_func
+    Result := DllCall(IsPlayerInABoat_func)
+    return Result
+}
+
+IsPlayerInATrain() {
+	global IsPlayerInATrain_func
+    Result := DllCall(IsPlayerInATrain_func)
+    return Result
+}
+
+IsPlayerInABike() {
+	global IsPlayerInABike_func
+    Result := DllCall(IsPlayerInABike_func)
+    return Result
+}
+
+IsPlayerInAPlane() {
+	global IsPlayerInAPlane_func
+    Result := DllCall(IsPlayerInAPlane_func)
+    return Result
+}
+
+IsPlayerInABicycle() {
+	global IsPlayerInABicycle_func
+    Result := DllCall(IsPlayerInABicycle_func)
     return Result
 }
 

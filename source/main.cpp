@@ -67,6 +67,7 @@
 #define GTA_VEHICLE_DOORSTATE_ADDR 0x4F8
 #define GTA_VEHICLE_ENGINESTATE_ADDR 0x428
 #define GTA_VEHICLE_LIGHTSTATE_ADDR 0x584
+#define GTA_VEHICLE_TYPE_ADDR 0x590
 
 // Interface Addresses
 #define INTERFACE_HEALTH_COLOR_ADDR 0xBAB22C
@@ -912,6 +913,168 @@ int API_GetVehicleLightState() {
 			ReadProcessMemory(gtaHandle, (LPCVOID)(buffer + GTA_VEHICLE_LIGHTSTATE_ADDR), &value, sizeof(value), NULL);
 
 			return (int)value;
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_GetVehicleType()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_GetVehicleType() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			BYTE value;
+
+			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
+			ReadProcessMemory(gtaHandle, (DWORD*)(buffer + GTA_VEHICLE_TYPE_ADDR), &value, sizeof(value), &buffer);
+
+			switch ((int)value) {
+				case 0: return 1; // car/plane
+				case 5: return 2; // boat
+				case 6: return 3; // train
+				case 9: return 4; // bike
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsPlayerInACar()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsPlayerInACar() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			if (API_GetVehicleType() == 1) {
+				return 1;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsPlayerInABoat()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsPlayerInABoat() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			if (API_GetVehicleType() == 2) {
+				return 1;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsPlayerInATrain()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsPlayerInATrain() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			if (API_GetVehicleType() == 3) {
+				return 1;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsPlayerInABike()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsPlayerInABike() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			if (API_GetVehicleType() == 4) {
+				return 1;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsPlayerInAPlane()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsPlayerInAPlane() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			if (API_GetVehicleType() == 1) {
+				return 1;
+			}
+		}
+
+		return 0;
+	}
+
+	return FUNCTION_ERROR_CODE;
+}
+
+/**
+ * int API_IsPlayerInABicycle()
+ *
+ * @author			Slider
+ * @date			2014-08-23
+ * @category		GTA
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int API_IsPlayerInABicycle() {
+	if (CheckHandles()) {
+		if (API_IsPlayerInAnyVehicle()) {
+			if (API_GetVehicleType() == 4) {
+				return 1;
+			}
 		}
 
 		return 0;

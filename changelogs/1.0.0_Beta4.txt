@@ -3,6 +3,13 @@ Wurde bereits erledigt:
 - API_GetVehicleLockState() wurde hinzugefügt
 - API_GetVehicleEngineState() wurde hinzugefügt
 - API_GetVehicleLightState() wurde hinzugefügt
+- API_GetVehicleType() wurde hinzugefügt
+- API_IsPlayerInACar() wurde hinzugefügt
+- API_IsPlayerInABoat() wurde hinzugefügt
+- API_IsPlayerInATrain() wurde hinzugefügt
+- API_IsPlayerInABike() wurde hinzugefügt
+- API_IsPlayerInAPlane() wurde hinzugefügt
+- API_IsPlayerInABicycle() wurde hinzugefügt
 
 Noch nicht erledigt:
 - API_GetVehicleModelID() wurde hinzugefügt
