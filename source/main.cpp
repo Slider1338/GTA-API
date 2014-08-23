@@ -883,8 +883,11 @@ int API_GetVehicleEngineState() {
 			ReadProcessMemory(gtaHandle, (DWORD*)GTA_VEHICLE_POINTER_ADDR, &buffer, sizeof(buffer), NULL);
 			ReadProcessMemory(gtaHandle, (DWORD*)(buffer + GTA_VEHICLE_ENGINESTATE_ADDR), &value, sizeof(value), NULL);
 
-			if ((int)value > 0) {
+			if ((int)value == 24 || (int)value == 88) {
 				return 1;
+			}
+			else if ((int)value == 8 || (int)value == 72) {
+				return 0;
 			}
 		}
 
