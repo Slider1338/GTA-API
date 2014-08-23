@@ -6,3 +6,4 @@ Wurde bereits erledigt:
 Noch nicht erledigt:
 - API_GetVehicleModelID() wurde hinzugefügt
 - API_GetVehicleLightState() wurde hinzugefügt
+- API_IsUpdateAvailable() wurde hinzugefügt
