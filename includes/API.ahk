@@ -12,11 +12,18 @@ GetServerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetServerNa
 GetServerIP_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetServerIP")
 CountOnlinePlayers_func := DllCall("GetProcAddress", UInt, hModule, Str, "CountOnlinePlayers")
 GetPlayerName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerName")
+GetPlayerID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerID")
+GetPlayerScore_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerScore")
+GetPlayerPing_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerPing_func")
+IsPlayerConnected_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerConnected")
+GetPlayerNameByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerNameByID")
+GetPlayerScoreByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerScoreByID")
+GetPlayerPingByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerPingByID")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "SendChat")
 AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "AddChatMessage")
 ShowDialog_func := DllCall("GetProcAddress", UInt, hModule, Str, "ShowDialog")
-IsInChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsInChat")
 GetChatLine_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetChatLine")
+IsInChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsInChat")
 
 ; GTA
 GetPlayerMoney_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerMoney")
@@ -32,6 +39,9 @@ IsPlayerInRangeOfPoint_func := DllCall("GetProcAddress", UInt, hModule, Str, "Is
 GetPlayerWeaponID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerWeaponID")
 GetPlayerWeaponSlot_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerWeaponSlot")
 GetPlayerWeaponClipAmmo_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerWeaponClipAmmo")
+IsPlayerInArea_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerInArea")
+GetCityName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetCityName")
+GetZoneName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetZoneName")
 GetWeaponName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetWeaponName")
 GetVehicleHealth_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetVehicleHealth")
 IsPlayerInAnyVehicle_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerInAnyVehicle")
@@ -48,9 +58,6 @@ IsPlayerInATrain_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayer
 IsPlayerInABike_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerInABike")
 IsPlayerInAPlane_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerInAPlane")
 IsPlayerInABicycle_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerInABicycle")
-IsPlayerInArea_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerInArea")
-GetCityName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetCityName")
-GetZoneName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetZoneName")
 
 ; Interface
 SetInterfaceHealthColor_func := DllCall("GetProcAddress", UInt, hModule, Str, "SetInterfaceHealthColor")
@@ -109,9 +116,9 @@ GetPlayerPing() {
     return Result
 }
 
-IsPlayerConnected() {
+IsPlayerConnected(playerid) {
 	global IsPlayerConnected_func
-    Result := DllCall(IsPlayerConnected_func)
+    Result := DllCall(IsPlayerConnected_func, Int, playerid)
     return Result
 }
 
