@@ -86,6 +86,10 @@ int GetPlayerPingByID(int playerid) {
 	return _SAMP.API_GetPlayerPingByID(playerid);
 }
 
+int UpdatePlayerDatas() {
+	return _SAMP.API_UpdatePlayerDatas();
+}
+
 int SendChat(char *text) {
 	return _SAMP.API_SendChat(text);
 }

@@ -9,6 +9,7 @@
  * this class contains all standart SA:MP Functions
  */
 
+#include <iostream>
 #include <windows.h>
 #include "SAMP.h"
 #include "Memory.h"
@@ -85,7 +86,7 @@ int SAMP::API_CountOnlinePlayers() {
 }
 
 /**
- * int API_UpdateScoreboard()
+ * int API_UpdatePlayerDatas()
  *
  * @author			Slider
  * @date			2014-08-26
@@ -102,7 +103,7 @@ int SAMP::API_UpdatePlayerDatas() {
 }
 
 /**
- * int API_UpdateScoreboard()
+ * int API_ReadScoreboard()
  *
  * @author			Slider
  * @date			2014-08-26
@@ -115,46 +116,43 @@ int SAMP::API_ReadScoreboard() {
 		DWORD dwAddress;
 		DWORD _dwAddress;
 		DWORD dwPlayers;
-		DWORD dwPing;
-		DWORD dwScore;
+		int dwPing;
+		int dwScore;
 		DWORD dwPlayerNameLength;
 		DWORD dwRemotePlayer;
 		DWORD tmpAddress;
 		char PlayerName[30] = { 0 };
 
-		_Memory.Read((DWORD*)(_Memory.sampDLL + SAMP_SCOREBOARD_OFFSET), &dwAddress, sizeof(dwAddress));
-		_Memory.Read((DWORD*)(dwAddress + SAMP_SCOREBOARD_PLAYERPOOL_OFFSET), &_dwAddress, sizeof(_dwAddress));
+		API_UpdateLocalPlayerInfo();
+
+		_Memory.Read((DWORD*)(_Memory.sampDLL + SAMP_SERVERNAME_ADDR), &dwAddress, sizeof(dwAddress));
+		_Memory.Read((DWORD*)(dwAddress + SAMP_SCOREBOARD_PLAYERPOOLS_OFFSET), &_dwAddress, sizeof(_dwAddress));
 		_Memory.Read((DWORD*)(_dwAddress + SAMP_SCOREBOARD_PLAYERPOOL_OFFSET), &dwPlayers, sizeof(dwPlayers));
 
 		while (index < 1000) {
-			memcpy(_PlayerDatas[index]._PlayerData_Name, "Unbekannt", 0);
-			_PlayerDatas[index]._PlayerData_Score = -1;
-			_PlayerDatas[index]._PlayerData_Ping = -1;
-
-			_Memory.Read((DWORD*)(dwPlayers + SAMP_SCOREBOARD_PLAYER_OFFSET + index * 4), &dwRemotePlayer, sizeof(dwRemotePlayer));
-			if (!dwRemotePlayer) {
-				index++;
-				continue;
-			}
-
-			_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_SCORE_OFFSET), &dwScore, sizeof(dwScore));
-			_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_PING_OFFSET), &dwPing, sizeof(dwPing));
-			_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_NAMELNG_OFFSET), &dwPlayerNameLength, sizeof(dwPlayerNameLength));
-
-			if (dwPlayerNameLength <= 0xF) {
-				_Memory.Read((DWORD*)(dwRemotePlayer + 0x14), &PlayerName, sizeof(PlayerName));
-			}
-			else {
-				_Memory.Read((DWORD*)(dwRemotePlayer + 0x14), &tmpAddress, sizeof(tmpAddress));
-				_Memory.Read((DWORD*)(dwRemotePlayer + tmpAddress), PlayerName, sizeof(PlayerName));
-			}
-
-			if (dwPing > 65535) {
+			if (LocalPlayerID != index) {
 				memcpy(_PlayerDatas[index]._PlayerData_Name, "Unbekannt", 0);
 				_PlayerDatas[index]._PlayerData_Score = -1;
 				_PlayerDatas[index]._PlayerData_Ping = -1;
-			}
-			else {
+
+				_Memory.Read((DWORD*)(dwPlayers + SAMP_SCOREBOARD_PLAYER_OFFSET + index * 4), &dwRemotePlayer, sizeof(dwRemotePlayer));
+				if (!dwRemotePlayer) {
+					index++;
+					continue;
+				}
+
+				_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_SCORE_OFFSET), &dwScore, sizeof(dwScore));
+				_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_PING_OFFSET), &dwPing, sizeof(dwPing));
+				_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_NAMELNG_OFFSET), &dwPlayerNameLength, sizeof(dwPlayerNameLength));
+
+				if (dwPlayerNameLength <= 0xF) {
+					_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_NAME_OFFSET), &PlayerName, sizeof(PlayerName));
+				}
+				else {
+					_Memory.Read((DWORD*)(dwRemotePlayer + SAMP_SCOREBOARD_PLAYER_NAME_OFFSET), &tmpAddress, sizeof(tmpAddress));
+					_Memory.Read((DWORD*)(dwRemotePlayer + tmpAddress), PlayerName, sizeof(PlayerName));
+				}
+
 				memcpy(_PlayerDatas[index]._PlayerData_Name, PlayerName, sizeof(PlayerName));
 				_PlayerDatas[index]._PlayerData_Score = (int)dwScore;
 				_PlayerDatas[index]._PlayerData_Ping = (int)dwPing;
@@ -181,6 +179,8 @@ int SAMP::API_ReadScoreboard() {
  */
 int SAMP::API_UpdateLocalPlayerInfo() {
 	if (_Memory.CheckHandles() == 1) {
+		char playername[MAX_PLAYER_NAME] = { "Unbekannt" };
+		int playernameLength = 0;
 		short playerid = -1;
 		int score = -1;
 		int ping = -1;
@@ -193,20 +193,37 @@ int SAMP::API_UpdateLocalPlayerInfo() {
 		_Memory.Read((DWORD*)(_Memory.sampDLL + SAMP_SCOREBOARD_OFFSET), &dwAddress, sizeof(dwAddress));
 		_Memory.Read((DWORD*)(dwAddress + SAMP_SCOREBOARD_PLAYERPOOLS_OFFSET), &_dwAddress, sizeof(_dwAddress));
 		_Memory.Read((DWORD*)(_dwAddress + SAMP_SCOREBOARD_PLAYERPOOL_OFFSET), &dwPlayers, sizeof(dwPlayers));
+		_Memory.Read((DWORD*)(dwPlayers + 0x1A), &playernameLength, sizeof(playernameLength)); // local playername length
 		_Memory.Read((DWORD*)(dwPlayers + SAMP_PLAYERID_OFFSET), &playerid, sizeof(playerid)); // local player id
 		_Memory.Read((DWORD*)(dwPlayers + SAMP_PLAYERSCORE_OFFSET), &score, sizeof(score)); // local player score
 		_Memory.Read((DWORD*)(dwPlayers + SAMP_PLAYERPING_OFFSET), &ping, sizeof(ping)); // local player ping
 
+		if (playernameLength <= 0xf) {
+			_Memory.Read((DWORD*)(dwPlayers + 0xA), &playername, sizeof(playername));
+		}
+		else {
+			_Memory.Read((DWORD*)(dwPlayers + 0xA), &dwAddress, sizeof(dwAddress));
+			_Memory.Read((DWORD*)dwAddress, &playername, sizeof(playername));
+		}
+
 		SAMP::LocalPlayerID = (int)playerid;
 		SAMP::LocalPlayerScore = score;
 		SAMP::LocalPlayerPing = ping;
+
+		if (playerid >= 0 || playerid < MAX_PLAYERS) {
+			memcpy(_PlayerDatas[playerid]._PlayerData_Name, playername, sizeof(playername));
+			_PlayerDatas[playerid]._PlayerData_Score = SAMP::LocalPlayerScore;
+			_PlayerDatas[playerid]._PlayerData_Ping = SAMP::LocalPlayerPing;
+		}
+
+		return 1;
 	}
 
 	return _Memory.CheckHandlesErrorCode;
 }
 
 /**
- * int API_UpdateScoreboard(char*&)
+ * int API_GetPlayerName(char*&)
  *
  * @author			Slider
  * @date			2014-08-26
@@ -215,17 +232,15 @@ int SAMP::API_UpdateLocalPlayerInfo() {
  */
 int SAMP::API_GetPlayerName(char *&playername) {
 	if (_Memory.CheckHandles() == 1) {
-		char _playername[MAX_PLAYER_NAME] = { "Unbekannt" };
-		_Memory.Read((DWORD*)(_Memory.sampDLL + SAMP_PLAYERNAME_ADDR), _playername, sizeof(_playername));
-
-		memcpy(playername, _playername, sizeof(playername));
+		SAMP::API_UpdateLocalPlayerInfo();
+		memcpy(playername, _PlayerDatas[LocalPlayerID]._PlayerData_Name, sizeof(_PlayerDatas[LocalPlayerID]._PlayerData_Name));
 	}
 
 	return _Memory.CheckHandlesErrorCode;
 }
 
 /**
- * int API_UpdateScoreboard()
+ * int API_GetPlayerID()
  *
  * @author			Slider
  * @date			2014-08-26
@@ -242,7 +257,7 @@ int SAMP::API_GetPlayerID() {
 }
 
 /**
- * int API_UpdateScoreboard()
+ * int API_GetPlayerScore()
  *
  * @author			Slider
  * @date			2014-08-26
@@ -259,7 +274,7 @@ int SAMP::API_GetPlayerScore() {
 }
 
 /**
- * int API_UpdateScoreboard()
+ * int API_GetPlayerPing()
  *
  * @author			Slider
  * @date			2014-08-26
@@ -276,7 +291,7 @@ int SAMP::API_GetPlayerPing() {
 }
 
 /**
- * int API_UpdateScoreboard(int)
+ * int API_IsPlayerConnected(int)
  *
  * @author			Slider
  * @date			2014-08-26

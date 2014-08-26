@@ -23,6 +23,7 @@ extern "C" __declspec(dllimport) int IsPlayerConnected(int playerid);
 extern "C" __declspec(dllimport) int GetPlayerNameByID(int playerid, char *&playername);
 extern "C" __declspec(dllimport) int GetPlayerScoreByID(int playerid);
 extern "C" __declspec(dllimport) int GetPlayerPingByID(int playerid);
+extern "C" __declspec(dllimport) int UpdatePlayerDatas();
 extern "C" __declspec(dllimport) int SendChat(char *text);
 extern "C" __declspec(dllimport) int GetChatLine(int line, char *&content);
 extern "C" __declspec(dllimport) int IsInChat();

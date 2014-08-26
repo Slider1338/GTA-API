@@ -19,6 +19,7 @@ IsPlayerConnected_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlaye
 GetPlayerNameByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerNameByID")
 GetPlayerScoreByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerScoreByID")
 GetPlayerPingByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerPingByID")
+UpdatePlayerDatas_func := DllCall("GetProcAddress", UInt, hModule, Str, "UpdatePlayerDatas")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "SendChat")
 AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "AddChatMessage")
 ShowDialog_func := DllCall("GetProcAddress", UInt, hModule, Str, "ShowDialog")
@@ -138,6 +139,12 @@ GetPlayerScoreByID(playerid) {
 GetPlayerPingByID(playerid) {
 	global GetPlayerPingByID_func
     Result := DllCall(GetPlayerPingByID_func, Int, playerid)
+    return Result
+}
+
+UpdatePlayerDatas(playerid) {
+	global UpdatePlayerDatas_func
+    Result := DllCall(UpdatePlayerDatas_func)
     return Result
 }
 
