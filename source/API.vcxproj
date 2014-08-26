@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AF685853-7D95-456F-9393-AF6697BC704C}</ProjectGuid>
+    <ProjectGuid>{DD38954C-BD8E-4ECF-9CB7-3455BD961E5F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>API</RootNamespace>
   </PropertyGroup>
@@ -69,7 +69,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;API_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -79,19 +78,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Addresses.hpp" />
-    <ClInclude Include="InjectData.hpp" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="MemoryManager.h" />
-    <ClInclude Include="RemoteFunctionCaller.hpp" />
-    <ClInclude Include="RemoteMemory.hpp" />
-    <ClInclude Include="SAMP.hpp" />
-    <ClInclude Include="Vehicles.h" />
+    <ClInclude Include="API.h" />
+    <ClInclude Include="ChatlogManagement.h" />
+    <ClInclude Include="GTASA.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="Areas.h" />
+    <ClInclude Include="SAMP.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MemoryManager.cpp" />
-    <ClCompile Include="Vehicles.cpp" />
+    <ClCompile Include="API.cpp" />
+    <ClCompile Include="ChatlogManagement.cpp" />
+    <ClCompile Include="GTASA.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Areas.cpp" />
+    <ClCompile Include="SAMP.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

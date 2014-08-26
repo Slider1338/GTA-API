@@ -1,0 +1,17 @@
+Bereits fertiggestellt:
+- Komplette Codeüberarbeitung
+- API_ wurde vor den Funktionsnamen für C++ Projekte entfernt
+- GetPlayerID() wurde hinzugefügt
+- GetPlayerScore() wurde hinzugefügt
+- GetPlayerPing() wurde hinzugefügt
+- GetVersion(char*&) wurde zu GetAPIVersion(char*&) umbenannt
+- IsUpdateAvailable() wurde zu IsAPIUpdateAvailable() umbenannt
+- GetAPIRuntime() wurde hinzugefügt
+- GetWeaponName(int, char*&) wurde hinzugefügt
+
+Wird noch gemacht/Bugs müssen noch behoben werden:
+- IsPlayerConnected() wurde hinzugefügt
+- UpdatePlayerDatas() wurde hinzugefügt
+- GetPlayerNameByID(int, char*&) wurde hinzugefügt
+- GetPlayerScoreByID(int) wurde hinzugefügt
+- GetPlayerPingByID(int) wurde hinzugefügt

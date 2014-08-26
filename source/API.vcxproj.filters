@@ -15,39 +15,54 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h">
+    <ClInclude Include="API.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryManager.h">
+    <ClInclude Include="GTASA.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="RemoteFunctionCaller.hpp">
+    <ClInclude Include="Memory.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="RemoteMemory.hpp">
+    <ClInclude Include="Areas.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="SAMP.hpp">
+    <ClInclude Include="SAMP.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Addresses.hpp">
+    <ClInclude Include="ChatlogManagement.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="InjectData.hpp">
+    <ClInclude Include="Interface.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Vehicles.h">
+    <ClInclude Include="Utilities.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="API.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryManager.cpp">
+    <ClCompile Include="GTASA.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Vehicles.cpp">
+    <ClCompile Include="Memory.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Areas.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SAMP.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatlogManagement.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
