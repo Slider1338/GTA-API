@@ -78,13 +78,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Addresses.hpp" />
     <ClInclude Include="API.h" />
     <ClInclude Include="ChatlogManagement.h" />
     <ClInclude Include="GTASA.h" />
+    <ClInclude Include="InjectData.hpp" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Areas.h" />
+    <ClInclude Include="RemoteFunctionCaller.hpp" />
+    <ClInclude Include="RemoteMemory.hpp" />
     <ClInclude Include="SAMP.h" />
+    <ClInclude Include="SAMP.hpp" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>

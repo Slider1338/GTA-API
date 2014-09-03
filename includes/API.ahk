@@ -19,10 +19,11 @@ IsPlayerConnected_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlaye
 GetPlayerNameByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerNameByID")
 GetPlayerScoreByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerScoreByID")
 GetPlayerPingByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerPingByID")
-UpdatePlayerDatas_func := DllCall("GetProcAddress", UInt, hModule, Str, "UpdatePlayerDatas")
+UpdateServerData_func := DllCall("GetProcAddress", UInt, hModule, Str, "UpdateServerData")
 SendChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "SendChat")
 AddChatMessage_func := DllCall("GetProcAddress", UInt, hModule, Str, "AddChatMessage")
 ShowDialog_func := DllCall("GetProcAddress", UInt, hModule, Str, "ShowDialog")
+ShowGameText_func := DllCall("GetProcAddress", UInt, hModule, Str, "ShowGameText")
 GetChatLine_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetChatLine")
 IsInChat_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsInChat")
 
@@ -142,9 +143,9 @@ GetPlayerPingByID(playerid) {
     return Result
 }
 
-UpdatePlayerDatas(playerid) {
-	global UpdatePlayerDatas_func
-    Result := DllCall(UpdatePlayerDatas_func)
+UpdateServerData() {
+	global UpdateServerData_func
+    Result := DllCall(UpdateServerData_func)
     return Result
 }
 
@@ -163,6 +164,12 @@ AddChatMessage(text) {
 ShowDialog(style, caption, info, button) {
 	global ShowDialog_func
     Result := DllCall(ShowDialog_func, Int, style, Str, caption, Str, info, Str, button)
+    return Result
+}
+
+ShowGameText(text, time, style) {
+	global ShowGameText_func
+    Result := DllCall(ShowGameText_func, Str, text, Int, time, Int, style)
     return Result
 }
 

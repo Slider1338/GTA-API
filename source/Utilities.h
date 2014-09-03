@@ -20,6 +20,8 @@ public:
 	int lastUpdateCheck = 0;
 	int updateAvailable = 0;
 
+	bool DataCompare(const BYTE* OpCodes, const BYTE* Mask, const char* StrMask);
+	DWORD FindPattern(DWORD StartAddress, DWORD CodeLen, BYTE* Mask, char* StrMask, unsigned short ignore);
 	int API_IsAPIUpdateAvailable();
 	int API_GetAPIVersion(char *&version);
 	int API_GetTimestamp();

@@ -20,11 +20,15 @@ extern "C" __declspec(dllimport) int GetPlayerID();
 extern "C" __declspec(dllimport) int GetPlayerScore();
 extern "C" __declspec(dllimport) int GetPlayerPing();
 extern "C" __declspec(dllimport) int IsPlayerConnected(int playerid);
+extern "C" __declspec(dllimport) int GetPlayerIDByName(char *playername);
 extern "C" __declspec(dllimport) int GetPlayerNameByID(int playerid, char *&playername);
 extern "C" __declspec(dllimport) int GetPlayerScoreByID(int playerid);
 extern "C" __declspec(dllimport) int GetPlayerPingByID(int playerid);
-extern "C" __declspec(dllimport) int UpdatePlayerDatas();
+extern "C" __declspec(dllimport) int UpdateServerData();
 extern "C" __declspec(dllimport) int SendChat(char *text);
+extern "C" __declspec(dllimport) int AddChatMessage(char *text);
+extern "C" __declspec(dllimport) int ShowDialog(int style, const char *caption, const char *info, const char *button);
+extern "C" __declspec(dllimport) int ShowGameText(const char *text, int time, int style);
 extern "C" __declspec(dllimport) int GetChatLine(int line, char *&content);
 extern "C" __declspec(dllimport) int IsInChat();
 

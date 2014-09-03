@@ -64,6 +64,38 @@ DWORD Memory::GetSAMPBaseAddress() {
 }
 
 /**
+ * DWORD GetSAMPModuleLength()
+ * @author			Slider
+ * @date			2014-09-02
+ * @category		MemoryManagement
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+*/
+DWORD Memory::GetSAMPModuleLength() {
+	DWORD modulesize = 0;
+
+	if (GetGTAProcessID()) {
+		HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetGTAProcessID());
+
+		if (hSnapshot != INVALID_HANDLE_VALUE) {
+			MODULEENTRY32 entry;
+			entry.dwSize = sizeof(MODULEENTRY32);
+
+			Module32First(hSnapshot, &entry);
+			do {
+				if (_stricmp(entry.szModule, "samp.dll") == 0) {
+					modulesize = (DWORD)entry.modBaseSize;
+					break;
+				}
+			} while (Module32Next(hSnapshot, &entry));
+
+			CloseHandle(hSnapshot);
+		}
+	}
+
+	return modulesize;
+}
+
+/**
  * int CheckHandles()
  *
  * @author			Slider

@@ -38,6 +38,9 @@
 #define SAMP_ISINCHAT_OFFSET 0x55
 #define SAMP_SERVERNAME_ADDR 0x212A80
 #define SAMP_SERVERNAME_OFFSET 0x2C6
+#define SAMP_DIALOG_OBJECT 0x212A40
+#define SAMP_CHATINFO_OBJECT 0x212A6C
+#define SAMP_ADDCHATMESSAGE_FUNC_ADDR 0x7AA00
 
 struct PlayerDatas {
 	char _PlayerData_Name[MAX_PLAYER_NAME];
@@ -58,7 +61,7 @@ public:
 	int API_GetServerName(char *&servername);
 	int API_GetServerIP(char *&serverip);
 	int API_CountOnlinePlayers();
-	int API_UpdatePlayerDatas();
+	int API_UpdateServerData();
 	int API_ReadScoreboard();
 	int API_UpdateLocalPlayerInfo();
 	int API_GetPlayerName(char *&playername);
@@ -66,9 +69,13 @@ public:
 	int API_GetPlayerScore();
 	int API_GetPlayerPing();
 	int API_IsPlayerConnected(int playerid);
+	int API_GetPlayerIDByName(char *playername);
 	int API_GetPlayerNameByID(int playerid, char *&playername);
 	int API_GetPlayerScoreByID(int playerid);
 	int API_GetPlayerPingByID(int playerid);
 	int API_SendChat(char*);
+	int API_AddChatMessage(char *text);
+	int API_ShowDialog(int style, const char *caption, const char *info, const char *button);
+	int API_ShowGameText(const char *text, int time, int style);
 	int API_IsInChat();
 };

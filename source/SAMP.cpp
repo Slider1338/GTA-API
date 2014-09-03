@@ -13,8 +13,12 @@
 #include <windows.h>
 #include "SAMP.h"
 #include "Memory.h"
+#include "SAMP.hpp"
+#include "Utilities.h"
 
-Memory _Memory;
+extern Memory _Memory;
+Utilities _Utilities;
+SAMPEXT::SAMPEXT _SAMPEXT;
 
 struct PlayerDatas _PlayerDatas[MAX_PLAYERS];
 
@@ -73,6 +77,10 @@ int SAMP::API_GetServerIP(char *&serverip) {
  */
 int SAMP::API_CountOnlinePlayers() {
 	if (_Memory.CheckHandles() == 1) {
+		if ((SAMP::LastScoreboardUpdate + AUTO_SCOREBOARD_REFRESH) < GetTickCount()) {
+			SAMP::API_UpdateServerData();
+		}
+
 		int players = 0;
 		DWORD buffer = NULL;
 
@@ -86,15 +94,16 @@ int SAMP::API_CountOnlinePlayers() {
 }
 
 /**
- * int API_UpdatePlayerDatas()
+ * int API_UpdateServerData()
  *
  * @author			Slider
  * @date			2014-08-26
  * @category		SA:MP
  * @license			General Public License <https://www.gnu.org/licenses/gpl>
  */
-int SAMP::API_UpdatePlayerDatas() {
+int SAMP::API_UpdateServerData() {
 	if (_Memory.CheckHandles() == 1) {
+		_SAMPEXT.updateServerData();
 		SAMP::API_ReadScoreboard();
 		return 1;
 	}
@@ -131,7 +140,7 @@ int SAMP::API_ReadScoreboard() {
 
 		while (index < 1000) {
 			if (LocalPlayerID != index) {
-				memcpy(_PlayerDatas[index]._PlayerData_Name, "Unbekannt", 0);
+				memcpy(_PlayerDatas[index]._PlayerData_Name, "Unbekannt", 9);
 				_PlayerDatas[index]._PlayerData_Score = -1;
 				_PlayerDatas[index]._PlayerData_Ping = -1;
 
@@ -301,7 +310,7 @@ int SAMP::API_GetPlayerPing() {
 int SAMP::API_IsPlayerConnected(int playerid) {
 	if (_Memory.CheckHandles() == 1) {
 		if ((SAMP::LastScoreboardUpdate + AUTO_SCOREBOARD_REFRESH) < GetTickCount()) {
-			SAMP::API_UpdatePlayerDatas();
+			SAMP::API_UpdateServerData();
 		}
 
 		if (playerid < 0 || playerid > (MAX_PLAYERS - 1)) {
@@ -320,6 +329,34 @@ int SAMP::API_IsPlayerConnected(int playerid) {
 }
 
 /**
+ * int API_GetPlayerIDByName(char*)
+ *
+ * @author			Slider
+ * @date			2014-08-26
+ * @category		SA:MP
+ * @license			General Public License <https://www.gnu.org/licenses/gpl>
+ */
+int SAMP::API_GetPlayerIDByName(char *playername) {
+	if (_Memory.CheckHandles() == 1) {
+		if ((SAMP::LastScoreboardUpdate + AUTO_SCOREBOARD_REFRESH) < GetTickCount()) {
+			SAMP::API_UpdateServerData();
+		}
+
+		for (int i = 0; i < MAX_PLAYERS; i++) {
+			if (strlen(_PlayerDatas[i]._PlayerData_Name) < 3) {
+				if (!strcmp(playername, _PlayerDatas[i]._PlayerData_Name)) {
+					return i;
+				}
+			}
+		}
+
+		return -4;
+	}
+
+	return _Memory.CheckHandlesErrorCode;
+}
+
+/**
  * int API_UpdateScoreboard(int, char*&)
  *
  * @author			Slider
@@ -330,7 +367,7 @@ int SAMP::API_IsPlayerConnected(int playerid) {
 int SAMP::API_GetPlayerNameByID(int playerid, char *&playername) {
 	if (_Memory.CheckHandles() == 1) {
 		if ((SAMP::LastScoreboardUpdate + AUTO_SCOREBOARD_REFRESH) < GetTickCount()) {
-			SAMP::API_UpdatePlayerDatas();
+			SAMP::API_UpdateServerData();
 		}
 
 		if (playerid < 0 || playerid > (MAX_PLAYERS - 1)) {
@@ -356,7 +393,7 @@ int SAMP::API_GetPlayerNameByID(int playerid, char *&playername) {
 int SAMP::API_GetPlayerScoreByID(int playerid) {
 	if (_Memory.CheckHandles() == 1) {
 		if ((SAMP::LastScoreboardUpdate + AUTO_SCOREBOARD_REFRESH) < GetTickCount()) {
-			SAMP::API_UpdatePlayerDatas();
+			SAMP::API_UpdateServerData();
 		}
 
 		if (playerid < 0 || playerid > (MAX_PLAYERS - 1)) {
@@ -380,7 +417,7 @@ int SAMP::API_GetPlayerScoreByID(int playerid) {
 int SAMP::API_GetPlayerPingByID(int playerid) {
 	if (_Memory.CheckHandles() == 1) {
 		if ((SAMP::LastScoreboardUpdate + AUTO_SCOREBOARD_REFRESH) < GetTickCount()) {
-			SAMP::API_UpdatePlayerDatas();
+			SAMP::API_UpdateServerData();
 		}
 
 		if (playerid < 0 || playerid > (MAX_PLAYERS - 1)) {
@@ -437,6 +474,74 @@ int SAMP::API_SendChat(char *text) {
 			CloseHandle(hThread);
 		}
 
+		return 1;
+	}
+
+	return _Memory.CheckHandlesErrorCode;
+}
+
+/**
+ * int API_AddChatMessage(char *text)
+ *
+ * @author			agrippa1994
+ * @date			2014-07-31
+ * @category		SA:MP
+ * @license			agrippa1994 License <https://github.com/agrippa1994/CPP-SAMP-API/blob/master/LICENSE>
+ *
+ * @params			text			char*
+ */
+int SAMP::API_AddChatMessage(char *text) {
+	if (_Memory.CheckHandles() == 1) {
+		char _text[256] = { "• {ffffff}" };
+		strcat_s(_text, text);
+
+		_SAMPEXT.addChatMessage(_text);
+		return 1;
+	}
+
+	return _Memory.CheckHandlesErrorCode;
+}
+
+/**
+ * int API_ShowDialog(int style, const char *caption, const char *info, const char *button)
+ *
+ * @author			agrippa1994
+ * @date			2014-07-31
+ * @category		SA:MP
+ * @license			agrippa1994 License <https://github.com/agrippa1994/CPP-SAMP-API/blob/master/LICENSE>
+ *
+ * @params			style			int
+ * @params			caption			const char*
+ * @params			info			const char*
+ * @params			button			const char*
+ */
+int SAMP::API_ShowDialog(int style, const char *caption, const char *info, const char *button) {
+	if (_Memory.CheckHandles() == 1) {
+		char _caption[256] = { "• " };
+		strcat_s(_caption, caption);
+
+		_SAMPEXT.showDialog(style, _caption, info, button);
+		return 1;
+	}
+
+	return _Memory.CheckHandlesErrorCode;
+}
+
+/**
+ * int API_ShowGameText(const char *text, int time, int style)
+ *
+ * @author			agrippa1994
+ * @date			2014-07-31
+ * @category		SA:MP
+ * @license			agrippa1994 License <https://github.com/agrippa1994/CPP-SAMP-API/blob/master/LICENSE>
+ *
+ * @params			text			char*
+ * @params			time			int
+ * @params			style			int
+ */
+int SAMP::API_ShowGameText(const char *text, int time, int style) {
+	if (_Memory.CheckHandles() == 1) {
+		_SAMPEXT.showGameText(text, time, style);
 		return 1;
 	}
 

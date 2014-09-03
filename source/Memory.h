@@ -16,6 +16,10 @@
 #include <tlhelp32.h>
 #include <Psapi.h>
 #include <Windows.h>
+#include <TlHelp32.h>
+//#include "RemoteFunctionCaller.h"
+
+#define NO_OBJECT 0
 
 class Memory {
 public:
@@ -28,7 +32,33 @@ public:
 	// prototypes
 	DWORD GetGTAProcessID();
 	DWORD GetSAMPBaseAddress();
+	DWORD GetSAMPModuleLength();
 	int CheckHandles();
 	int Read(LPVOID, LPVOID, DWORD);
 	int Write(LPVOID, LPVOID, DWORD);
+	/*
+	template<typename ...T>
+	bool call(DWORD dwObject, DWORD dwFunction, bool stackCleanup, T... args)
+	{
+		try
+		{
+			RemoteFunctionCaller<T...>(m_hHandle, dwObject, dwFunction, stackCleanup, args...);
+			return true;
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+
+	template<typename T>
+	T read(DWORD dwAddress, T onFail = T())
+	{
+		T t;
+		if (ReadProcessMemory(m_hHandle, (LPCVOID)dwAddress, &t, sizeof(t), 0))
+			return t;
+
+		return onFail;
+	}
+	*/
 };

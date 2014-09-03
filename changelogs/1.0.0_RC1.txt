@@ -8,10 +8,9 @@ Bereits fertiggestellt:
 - IsUpdateAvailable() wurde zu IsAPIUpdateAvailable() umbenannt
 - GetAPIRuntime() wurde hinzugefügt
 - GetWeaponName(int, char*&) wurde hinzugefügt
-
-Wird noch gemacht/Bugs müssen noch behoben werden:
 - IsPlayerConnected() wurde hinzugefügt
-- UpdatePlayerDatas() wurde hinzugefügt
+- UpdateServerData() wurde hinzugefügt
 - GetPlayerNameByID(int, char*&) wurde hinzugefügt
 - GetPlayerScoreByID(int) wurde hinzugefügt
 - GetPlayerPingByID(int) wurde hinzugefügt
+- ShowGameText(const char*, int, int) wurde hinzugefügt

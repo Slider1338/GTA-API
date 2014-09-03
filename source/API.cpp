@@ -21,7 +21,7 @@ Cities _Cities;
 Zones _Zones;
 ChatlogManagement _ChatlogManagement;
 Interface _Interface;
-Utilities _Utilities;
+extern Utilities _Utilities;
 
 #pragma comment(lib, "Shell32.lib")
 #pragma comment (lib, "wininet.lib")
@@ -29,6 +29,13 @@ Utilities _Utilities;
 // DLL Main
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
+		// fill array
+		for (int i = 0; i < MAX_PLAYERS; i++) {
+			memcpy(_PlayerDatas[i]._PlayerData_Name, "Unbekannt", 9);
+			_PlayerDatas[i]._PlayerData_Score = 0;
+			_PlayerDatas[i]._PlayerData_Ping = 0;
+		}
+
 		// load cities & zones
 		_Cities.LoadCities();
 		_Zones.LoadZones();
@@ -86,12 +93,24 @@ int GetPlayerPingByID(int playerid) {
 	return _SAMP.API_GetPlayerPingByID(playerid);
 }
 
-int UpdatePlayerDatas() {
-	return _SAMP.API_UpdatePlayerDatas();
+int UpdateServerData() {
+	return _SAMP.API_UpdateServerData();
 }
 
 int SendChat(char *text) {
 	return _SAMP.API_SendChat(text);
+}
+
+int AddChatMessage(char *text) {
+	return _SAMP.API_AddChatMessage(text);
+}
+
+int ShowDialog(int style, const char *caption, const char *info, const char *button) {
+	return _SAMP.API_ShowDialog(style, caption, info, button);
+}
+
+int ShowGameText(const char *text, int time, int style) {
+	return _SAMP.API_ShowGameText(text, time, style);
 }
 
 int GetChatLine(int line, char *&content) {

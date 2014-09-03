@@ -13,7 +13,7 @@
 #include "Memory.h"
 #include <Windows.h>
 
-extern Memory _Memory;
+Memory _Memory;
 
 /**
  * int API_SetInterfaceHealthColor()

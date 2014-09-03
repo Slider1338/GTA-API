@@ -17,6 +17,40 @@
 
 using namespace std;
 
+bool Utilities::DataCompare(const BYTE* OpCodes, const BYTE* Mask, const char* StrMask)
+{
+	//solange bis String zuende 
+	while (*StrMask)
+	{
+		//wenn Byte ungleich --> false 
+		if (*StrMask == 'x' && *OpCodes != *Mask)
+			return false;
+
+		++StrMask;
+		++OpCodes;
+		++Mask;
+	}
+
+	return true;  //wenn alle Bytes gleich 
+}
+
+DWORD Utilities::FindPattern(DWORD StartAddress, DWORD CodeLen, BYTE* Mask, char* StrMask, unsigned short ignore)
+{
+	unsigned short Ign = 0;
+	DWORD i = 0;
+
+	while (Ign <= ignore)
+	{
+		if (DataCompare((BYTE*)(StartAddress + i++), Mask, StrMask))
+			++Ign;
+
+		else if (i >= CodeLen)
+			return 0;
+	}
+
+	return StartAddress + i - 1;
+}
+
 /**
  * int API_IsUpdateAvailable()
  *
