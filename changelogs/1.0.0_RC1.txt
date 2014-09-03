@@ -7,7 +7,6 @@ Bereits fertiggestellt:
 - GetVersion(char*&) wurde zu GetAPIVersion(char*&) umbenannt
 - IsUpdateAvailable() wurde zu IsAPIUpdateAvailable() umbenannt
 - GetAPIRuntime() wurde hinzugefügt
-- GetWeaponName(int, char*&) wurde hinzugefügt
 - IsPlayerConnected() wurde hinzugefügt
 - UpdateServerData() wurde hinzugefügt
 - GetPlayerNameByID(int, char*&) wurde hinzugefügt
