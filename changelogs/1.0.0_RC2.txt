@@ -1,5 +1,5 @@
 Bereits fertiggestellt:
+- GetPlayerIDByName(int) wurde hinzugefügt
 
 Noch zu bearbeiten:
-- GetPlayerIDByName(int) wurde hinzugefügt
 - GetWeaponName(int, char*&) wurde hinzugefügt

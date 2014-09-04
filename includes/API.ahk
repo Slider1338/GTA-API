@@ -16,6 +16,7 @@ GetPlayerID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerID")
 GetPlayerScore_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerScore")
 GetPlayerPing_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerPing_func")
 IsPlayerConnected_func := DllCall("GetProcAddress", UInt, hModule, Str, "IsPlayerConnected")
+GetPlayerIDByName_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerIDByName")
 GetPlayerNameByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerNameByID")
 GetPlayerScoreByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerScoreByID")
 GetPlayerPingByID_func := DllCall("GetProcAddress", UInt, hModule, Str, "GetPlayerPingByID")
@@ -121,6 +122,13 @@ GetPlayerPing() {
 IsPlayerConnected(playerid) {
 	global IsPlayerConnected_func
     Result := DllCall(IsPlayerConnected_func, Int, playerid)
+    return Result
+}
+
+GetPlayerIDByName(ByRef name) {
+	global GetPlayerIDByName_func
+	VarSetCapacity(name, 24)
+    Result := DllCall(GetPlayerIDByName_func, StrP, name)
     return Result
 }
 

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#define API_VERSION "1.0.0 RC1"
+#define API_VERSION "1.0.0 RC2"
 #define UPDATE_SERVER_ADDR "update.gta-api.de"
 #define NEXT_UPDATE_CHECK 300000
 
@@ -20,8 +20,6 @@ public:
 	int lastUpdateCheck = 0;
 	int updateAvailable = 0;
 
-	bool DataCompare(const BYTE* OpCodes, const BYTE* Mask, const char* StrMask);
-	DWORD FindPattern(DWORD StartAddress, DWORD CodeLen, BYTE* Mask, char* StrMask, unsigned short ignore);
 	int API_IsAPIUpdateAvailable();
 	int API_GetAPIVersion(char *&version);
 	int API_GetTimestamp();

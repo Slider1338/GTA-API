@@ -343,10 +343,8 @@ int SAMP::API_GetPlayerIDByName(char *playername) {
 		}
 
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if (strlen(_PlayerDatas[i]._PlayerData_Name) < 3) {
-				if (!strcmp(playername, _PlayerDatas[i]._PlayerData_Name)) {
-					return i;
-				}
+			if (!strcmp(playername, _PlayerDatas[i]._PlayerData_Name)) {
+				return i;
 			}
 		}
 

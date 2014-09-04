@@ -163,3 +163,49 @@ int Memory::Write(LPVOID address, LPVOID buffer, DWORD size) {
 
 	return 0;
 }
+
+/**
+ * bool DataCompare(const BYTE* OpCodes, const BYTE* Mask, const char* StrMask)
+ *
+ * @author			.ErpeL (@elitepvpers)
+ * @date			2014-09-03
+ * @category		MemoryManagement
+ */
+bool Memory::DataCompare(const BYTE* OpCodes, const BYTE* Mask, const char* StrMask)
+{
+	while (*StrMask)
+	{
+		if (*StrMask == 'x' && *OpCodes != *Mask)
+			return false;
+
+		++StrMask;
+		++OpCodes;
+		++Mask;
+	}
+
+	return true;
+}
+
+/**
+ * bool DataCompare(DWORD StartAddress, DWORD CodeLen, BYTE* Mask, char* StrMask, unsigned short ignore)
+ *
+ * @author			.ErpeL (@elitepvpers)
+ * @date			2014-09-03
+ * @category		MemoryManagement
+ */
+DWORD Memory::FindPattern(DWORD StartAddress, DWORD CodeLen, BYTE* Mask, char* StrMask, unsigned short ignore)
+{
+	unsigned short Ign = 0;
+	DWORD i = 0;
+
+	while (Ign <= ignore)
+	{
+		if (DataCompare((BYTE*)(StartAddress + i++), Mask, StrMask))
+			++Ign;
+
+		else if (i >= CodeLen)
+			return 0;
+	}
+
+	return StartAddress + i - 1;
+}

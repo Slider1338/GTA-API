@@ -81,6 +81,10 @@ int IsPlayerConnected(int playerid) {
 	return _SAMP.API_IsPlayerConnected(playerid);
 }
 
+int GetPlayerIDByName(char *playername) {
+	return _SAMP.API_GetPlayerIDByName(playername);
+}
+
 int GetPlayerNameByID(int playerid, char *&playername) {
 	return _SAMP.API_GetPlayerNameByID(playerid, playername);
 }
