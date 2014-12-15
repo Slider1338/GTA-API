@@ -32,22 +32,22 @@ namespace Addresses
 {
 	namespace Objects
 	{
-		const DWORD ChatInfo = 0x212A6C;
-		const DWORD DialogInfo = 0x212A40;
+		const DWORD ChatInfo = 0x212AA4;
+		const DWORD DialogInfo = 0x212A78;
 
-        const DWORD InChatInfo = 0x212A94;
+        const DWORD InChatInfo = 0x212ACC;
 	}
 
 	namespace Functions
 	{
-		const DWORD AddChatMessage = 0x7AA00;
+		const DWORD AddChatMessage = 0x61fc0;
 
-		const DWORD ShowGameText = 0x643B0;
+		const DWORD ShowGameText = 0x98720;
 
-		const DWORD SendSay = 0x4CA0;
+		const DWORD SendSay = 0x63390;
 		const DWORD SendCommand = 0x7BDD0;
 
-		const DWORD ShowDialog = 0x816F0;
+		const DWORD ShowDialog = 0x68930;
 	}
 
 	namespace Other
