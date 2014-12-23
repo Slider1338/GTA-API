@@ -179,7 +179,7 @@ int SAMP::API_ReadScoreboard() {
 }
 
 /**
- * int API_UpdateScoreboard()
+ * int API_UpdateLocalPlayerInfo()
  *
  * @author			Slider
  * @date			2014-08-26
