@@ -32,27 +32,27 @@ namespace Addresses
 {
 	namespace Objects
 	{
-		const DWORD ChatInfo = 0x212AA4; // updated
-		const DWORD DialogInfo = 0x212A78; // updated
+		const DWORD ChatInfo = 0x21A0E4; // updated
+		const DWORD DialogInfo = 0x21A0B8; // updated
 
-		const DWORD InChatInfo = 0x212ACC; // updated
+		const DWORD InChatInfo = 0x21A10C; // updated
 	}
 
 	namespace Functions
 	{
-		const DWORD AddChatMessage = 0x61F40; // updated
+		const DWORD AddChatMessage = 0x64520; // updated
 
-		const DWORD ShowGameText = 0x98720;
+		const DWORD ShowGameText = 0x9C2C0;
 
-		const DWORD SendSay = 0x4C30; // updated
-		const DWORD SendCommand = 0x63390; // updated
+		const DWORD SendSay = 0x57F0; // updated
+		const DWORD SendCommand = 0x65C60; // updated
 
-		const DWORD ShowDialog = 0x68930;
+		const DWORD ShowDialog = 0x6B9C0; // updated
 	}
 
 	namespace Other
 	{
-		const DWORD AdditionalDialogInfo = 0xCE8F1;
+		const DWORD AdditionalDialogInfo = 0xCE8F1; // not updated
 
         const DWORD InChatOffset = 0x55;
 	}
