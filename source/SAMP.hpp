@@ -202,8 +202,8 @@ namespace SAMPEXT
 				return false;
 
 			DWORD value = 0;
-			ReadProcessMemory(m_hHandle, (DWORD*)(m_dwSAMPBase + 0x212AB8), &value, sizeof(value), NULL);
-			return call(value, m_dwSAMPBase + 0x7C50, false);
+			ReadProcessMemory(m_hHandle, (DWORD*)(m_dwSAMPBase + 0x21A0F8), &value, sizeof(value), NULL);
+			return call(value, m_dwSAMPBase + 0x8A10, false);
 		}
 	};
 }
